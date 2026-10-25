@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+</style>
+<title>TurnBnB Case Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: editorial 12-col page, real product screens on quiet violet-grey stages, text kept to short columns beside them */
+:root {
+  --bg: #F6F5F8;
+  --surface: #FFFFFF;
+  --stage: #ECE9F1;
+  --ink: #18161D;
+  --muted: #605B6B;
+  --line: #DDD9E4;
+  --accent: #5B1E86;
+  --accent-soft: #EFE8F6;
+  --screen: #FFFFFF;
+  --shadow: rgba(46, 24, 72, 0.22);
+  --f-display: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121116; --surface: #1B1A21; --stage: #1E1C25; --ink: #F1EFF5; --muted: #A49FAF;
+    --line: #2F2C38; --accent: #C49BE8; --accent-soft: #2A2236; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121116; --surface: #1B1A21; --stage: #1E1C25; --ink: #F1EFF5; --muted: #A49FAF;
+  --line: #2F2C38; --accent: #C49BE8; --accent-soft: #2A2236; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, .screen:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+h1, h2, h3, p, figure, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
+p { max-width: 62ch; text-wrap: pretty; }
+
+.wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.in { padding-inline: clamp(0px, 3vw, 40px); }
+
+.label {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
+}
+.label b { color: var(--accent); font-weight: 500; }
+
+/* Nav */
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+.nav .name { font-weight: 600; text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: clamp(16px, 3vw, 36px); flex-wrap: wrap; }
+.nav ul a, .back { text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; }
+.nav ul a:hover, .back:hover { color: var(--ink); }
+.back { display: inline-flex; gap: 8px; align-items: center; }
+
+/* Hero */
+.hero { padding-block: clamp(32px, 6vw, 72px) 0; }
+.hero h1 {
+  font-size: clamp(64px, 13vw, 168px); font-weight: 600; line-height: 0.92;
+  letter-spacing: -0.055em; margin-top: 28px;
+}
+.hero h1 span { color: var(--accent); }
+.hero-text { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(24px, 5vw, 80px); margin-top: clamp(28px, 4vw, 48px); align-items: end; }
+.hero .sub { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500; max-width: 24ch; }
+.hero .contrib { color: var(--muted); font-size: 18px; max-width: 46ch; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: clamp(36px, 5vw, 56px); padding-top: 20px; border-top: 1px solid var(--line); }
+.meta dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.meta dd { margin: 4px 0 0; font-weight: 500; }
+
+.hero-stage {
+  margin-top: clamp(40px, 6vw, 72px); background: var(--stage); border-radius: 28px;
+  padding: clamp(28px, 5vw, 72px) clamp(16px, 4vw, 64px) 0; overflow: hidden;
+}
+.hero-row { display: flex; justify-content: center; align-items: flex-end; gap: clamp(16px, 3vw, 40px); }
+.hero-row .shot { flex: 0 1 300px; min-width: 0; }
+.hero-row .shot.lead { flex-basis: 360px; }
+.hero-row .screen { border-bottom-left-radius: 0; border-bottom-right-radius: 0; aspect-ratio: 9 / 16.5; overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-row .shot { animation: rise 0.9s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-row .shot:nth-child(1) { animation-delay: .08s; }
+  .hero-row .shot:nth-child(3) { animation-delay: .16s; }
+}
+@keyframes rise { from { transform: translateY(40px); } to { transform: none; } }
+
+/* Sections */
+section.block { padding-block: clamp(96px, 13vw, 176px) 0; }
+.sec-head { display: grid; gap: 20px; max-width: 900px; }
+.sec-head h2 { font-size: clamp(34px, 4.8vw, 60px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; }
+.sec-head p { color: var(--muted); font-size: 18px; }
+.lead-line { color: var(--ink) !important; font-weight: 500; }
+
+/* Overview */
+.overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+.overview .copy { display: grid; gap: 22px; }
+.overview .copy p { color: var(--muted); }
+.quote {
+  font-family: var(--f-display); font-size: clamp(26px, 3vw, 38px); line-height: 1.18;
+  letter-spacing: -0.025em; font-weight: 500; color: var(--ink); max-width: 20ch;
+  padding-left: 22px; border-left: 2px solid var(--accent);
+}
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 36px); overflow-x: auto; }
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram.wide svg { min-width: 640px; }
+.dbox { fill: var(--surface); stroke: var(--line); stroke-width: 1.25; }
+.dbox.acc { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.75; }
+.dbox.dash { stroke-dasharray: 5 5; }
+.dlane { fill: var(--bg); }
+.dline { fill: none; stroke: var(--muted); stroke-width: 1.25; opacity: .7; }
+.dhead { fill: var(--muted); }
+.dt { fill: var(--ink); font-family: var(--f-body); font-size: 14px; font-weight: 600; }
+.ds { fill: var(--muted); font-family: var(--f-body); font-size: 12px; }
+.dm { fill: var(--muted); font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* Role */
+.role { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: end; padding-top: 40px; border-top: 1px solid var(--line); }
+.role .statement { font-size: clamp(20px, 2vw, 25px); line-height: 1.4; letter-spacing: -0.015em; max-width: 34ch; }
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.skills li { padding: 16px 0; border-bottom: 1px solid var(--line); font-weight: 500; display: flex; gap: 12px; align-items: baseline; }
+.skills li span { font-family: var(--f-mono); font-size: 11.5px; color: var(--accent); }
+
+/* Screens */
+.shot { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.screen {
+  aspect-ratio: 9 / 19.5; width: 100%; max-width: 100%;
+  background: var(--screen); border-radius: 30px; border: 1px solid var(--line);
+  overflow-x: hidden; overflow-y: auto; scrollbar-width: none;
+  box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -32px var(--shadow);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen { contain: paint; }
+.screen.app { display: flex; flex-direction: column; overflow: hidden; }
+.app-body { flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.app-body::-webkit-scrollbar { display: none; }
+.app-body img, .app-nav { display: block; width: 100%; height: auto; }
+.app-nav { flex: none; }
+.app-body:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.screen img { display: block; width: 100%; height: auto; }
+.shot:hover .screen { transform: translateY(-4px); box-shadow: 0 1px 2px var(--shadow), 0 40px 70px -32px var(--shadow); }
+figcaption { display: grid; gap: 4px; }
+figcaption .k { font-weight: 600; font-size: 15.5px; display: flex; gap: 10px; align-items: center; }
+figcaption .k::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+figcaption span:not(.k) { color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 34ch; }
+figcaption .tag { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.stage { background: var(--stage); border-radius: 28px; padding: clamp(28px, 5vw, 72px); }
+.rail { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: clamp(20px, 3.5vw, 56px); }
+.note { font-family: var(--f-mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes drift { from { transform: translateY(28px); } to { transform: none; } }
+
+.flow-wrap { display: grid; gap: clamp(40px, 5vw, 64px); margin-top: clamp(40px, 5vw, 64px); }
+
+/* Editorial rows */
+.row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.row.rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+.row.rev .row-text { order: -1; }
+.row-text { display: grid; gap: 14px; align-content: center; }
+.row-text h3 { font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -0.025em; line-height: 1.15; font-weight: 600; }
+.row-text p { color: var(--muted); max-width: 40ch; }
+.row .stage { padding: clamp(24px, 4vw, 56px); }
+.single { max-width: 300px; margin: 0 auto; }
+
+.gates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); margin-top: 8px; }
+.gates li { padding: 22px 24px 4px 0; display: grid; gap: 6px; }
+.gates li + li { padding-left: 24px; border-left: 1px solid var(--line); }
+.gates h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.gates p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+.rows { display: grid; gap: clamp(72px, 9vw, 128px); margin-top: clamp(72px, 9vw, 120px); }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 36px); }
+.gallery .shot:nth-child(even) { margin-top: clamp(0px, 5vw, 64px); }
+
+/* Outcome */
+.outcome { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); }
+.delivered { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.delivered li { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.reflect { display: grid; gap: 22px; align-content: start; }
+.reflect .quote { max-width: 18ch; font-size: clamp(30px, 3.6vw, 46px); }
+.reflect p { color: var(--muted); }
+.validate { display: grid; gap: 10px; margin-top: 8px; }
+.validate li { display: flex; gap: 14px; align-items: baseline; }
+.validate li::before { content: "?"; font-family: var(--f-mono); font-size: 12px; color: var(--accent); width: 22px; height: 22px; flex: none; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; }
+
+.closing { margin-top: clamp(80px, 10vw, 140px); }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: clamp(48px, 6vw, 72px); margin-top: clamp(80px, 10vw, 140px); border-top: 1px solid var(--line); }
+.next { text-decoration: none; display: grid; gap: 4px; text-align: right; }
+.next strong { font-size: clamp(26px, 3vw, 40px); letter-spacing: -0.03em; font-weight: 600; transition: color .2s; }
+.next:hover strong { color: var(--accent); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .hero-text, .overview, .role, .row, .row.rev, .outcome { grid-template-columns: minmax(0, 1fr); }
+  .row.rev .row-text { order: 0; }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery .shot:nth-child(even) { margin-top: 0; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+  .gates { grid-template-columns: minmax(0, 1fr); }
+  .gates li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .delivered, .skills { grid-template-columns: minmax(0, 1fr); }
+  /* Multi-screen rows become swipeable instead of shrinking */
+  .rail, .gallery, .hero-row {
+    display: grid; grid-auto-flow: column; grid-template-columns: none;
+    grid-auto-columns: 76%; overflow-x: auto; scroll-snap-type: x mandatory;
+    justify-content: start; padding-bottom: 8px; scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar, .gallery::-webkit-scrollbar, .hero-row::-webkit-scrollbar { display: none; }
+  .rail > *, .gallery > *, .hero-row > * { scroll-snap-align: center; }
+  .hero-row { align-items: end; }
+  .stage, .hero-stage { border-radius: 20px; }
+  .stage { padding: 24px 16px; }
+  .swipe-hint { display: block !important; }
+  .next { text-align: left; }
+}
+.swipe-hint { display: none; margin-top: 14px; }
+
+/* Shared portfolio chrome */
+.nav ul a[aria-current="page"] { color: var(--ink); }
+.pf-contact { margin-top: clamp(96px, 12vw, 160px); padding: clamp(36px, 6vw, 72px); border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 18px; }
+.pf-contact h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; max-width: 16ch; }
+.pf-contact-sub { color: var(--muted); max-width: 48ch; }
+.pf-links { display: grid; gap: 16px; margin-top: 12px; }
+.pf-email { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pf-email-addr { font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; letter-spacing: -0.02em; text-decoration: none; border-bottom: 2px solid var(--accent); overflow-wrap: anywhere; }
+.pf-copy { font: 500 13px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 10px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.pf-copy:hover { border-color: var(--ink); }
+.pf-copy:focus-visible, .pf-row a:focus-visible, .pf-email-addr:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pf-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.pf-row a { font-weight: 500; text-decoration: none; color: var(--muted); padding-block: 6px; }
+.pf-row a:hover { color: var(--ink); }
+.pf-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
+.foot + .pf-contact { margin-top: 0; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="in">
+
+    <header class="nav">
+      <a class="name" href="index.html">Armanush Torosyan</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- 01 Hero -->
+    <section class="hero" id="top">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <h1>TurnBnB<span>.</span></h1>
+      <div class="hero-text">
+        <p class="sub">Designing a mobile platform that connects property hosts with cleaning teams.</p>
+        <p class="contrib">I translated complex role, property, and subscription requirements into clear mobile workflows for Hosts, Team Leaders, and Cleaners.</p>
+      </div>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>UX/UI Designer</dd></div>
+        <div><dt>Platform</dt><dd>Mobile App</dd></div>
+        <div><dt>Tool</dt><dd>Figma</dd></div>
+        <div><dt>Status</dt><dd>In Development</dd></div>
+      </dl>
+    </section>
+
+    <div class="hero-stage">
+      <div class="hero-row">
+        <figure class="shot"><div class="screen"><img src="turnbnb/img/market-selected.jpg" alt="Team Leader market selection with local demand stats for Downtown Miami"></div></figure>
+        <figure class="shot lead"><div class="screen"><img src="turnbnb/img/cleaning-basics.jpg" alt="Host Cleaning Basics screen with budget and monthly jobs fields"></div></figure>
+        <figure class="shot"><div class="screen"><img src="turnbnb/img/host-calendar.jpg" alt="Host calendar showing cleanings by status across months"></div></figure>
+      </div>
+    </div>
+    <p class="note swipe-hint">Swipe to see more screens →</p>
+
+    <!-- 02 Overview -->
+    <section class="block" aria-labelledby="ov">
+      <div class="overview">
+        <div class="copy">
+          <p class="label">Overview</p>
+          <div class="sec-head"><h2 id="ov">One product, three roles, a lot of rules.</h2></div>
+          <p>TurnBnB connects short-term rental Hosts with cleaning Team Leaders and the Cleaners on their teams. Hosts add properties and connect booking calendars. Team Leaders grow their business. Cleaners do the work.</p>
+          <p class="quote">The hardest part wasn't any single screen. It was the rules between the roles.</p>
+          <p>Requirements kept evolving, so before designing screens I mapped roles, permissions, and relationships into one product model, and checked every flow against it.</p>
+        </div>
+        <div class="diagram drift">
+          <svg viewBox="0 0 530 400" role="img" aria-label="Hosts own properties; Team Leaders reach them through the Host; booking platforms create jobs">
+            <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+            <g class="dline">
+              <path d="M150 80V108" marker-end="url(#a1)"/>
+              <path d="M150 170V198" marker-end="url(#a1)"/>
+              <path d="M150 260V288" marker-end="url(#a1)"/>
+              <path d="M340 140H262" marker-end="url(#a1)"/>
+            </g>
+            <rect class="dbox" x="40" y="20" width="220" height="60" rx="12"/>
+            <text class="dt" x="150" y="46" text-anchor="middle">Host</text>
+            <text class="ds" x="150" y="64" text-anchor="middle">Adds and manages properties</text>
+            <rect class="dbox acc" x="40" y="110" width="220" height="60" rx="12"/>
+            <text class="dt" x="150" y="136" text-anchor="middle">Property</text>
+            <text class="ds" x="150" y="154" text-anchor="middle">One record per property</text>
+            <rect class="dbox" x="40" y="200" width="220" height="60" rx="12"/>
+            <text class="dt" x="150" y="226" text-anchor="middle">Team Leader</text>
+            <text class="ds" x="150" y="244" text-anchor="middle">Can't add properties</text>
+            <rect class="dbox" x="40" y="290" width="220" height="60" rx="12"/>
+            <text class="dt" x="150" y="316" text-anchor="middle">Cleaners</text>
+            <text class="ds" x="150" y="334" text-anchor="middle">The Team Leader's team</text>
+            <rect class="dbox" x="340" y="110" width="170" height="60" rx="12"/>
+            <text class="dt" x="425" y="136" text-anchor="middle">Booking platforms</text>
+            <text class="ds" x="425" y="154" text-anchor="middle">Airbnb · Booking.com · Vrbo</text>
+            <text class="ds" x="160" y="99">owns</text>
+            <text class="ds" x="160" y="189">cleaned by</text>
+            <text class="ds" x="160" y="279">leads</text>
+            <text class="ds" x="301" y="130" text-anchor="middle">jobs</text>
+            <text class="dm" x="40" y="386">Admin is a separate web experience</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Role -->
+    <section class="block" aria-label="My role">
+      <div class="role">
+        <div style="display:grid; gap:16px">
+          <p class="label">My role</p>
+          <p class="statement">As the UX/UI Designer, I translated evolving client requirements into structured mobile experiences, from user flows and permissions to high-fidelity UI and interactive prototypes.</p>
+        </div>
+        <ul class="skills">
+          <li><span>01</span>User Flows</li>
+          <li><span>02</span>UX/UI Design</li>
+          <li><span>03</span>Prototyping</li>
+          <li><span>04</span>Developer Handoff</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 04 Challenge 01 -->
+    <section class="block" aria-labelledby="c1">
+      <div class="sec-head">
+        <p class="label"><b>01</b> / Host invitation</p>
+        <h2 id="c1">Helping Team Leaders bring their existing Hosts into TurnBnB.</h2>
+        <p>Many Team Leaders already clean for Hosts outside TurnBnB. Inviting them means two roles in one flow: the Team Leader starts it, and the Host joins, creates the property, and connects it to the Team Leader.</p>
+        <p class="lead-line">I mapped the invitation flow across both roles before designing the individual screens.</p>
+      </div>
+
+      <div class="flow-wrap">
+        <div class="diagram wide drift">
+          <svg viewBox="0 0 760 228" role="img" aria-label="The Team Leader starts the invite; the Host joins, creates the property, and optionally connects a calendar">
+            <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+            <rect class="dlane" x="0" y="0" width="760" height="88" rx="14"/>
+            <rect class="dlane" x="0" y="104" width="760" height="112" rx="14"/>
+            <text class="dm" x="20" y="48">Team Leader</text>
+            <text class="dm" x="20" y="164">Host</text>
+            <g class="dline">
+              <path d="M228 72V128" marker-end="url(#a2)"/>
+              <path d="M312 158H342" marker-end="url(#a2)"/>
+              <path d="M512 158H542" marker-end="url(#a2)"/>
+              <path d="M628 130V74" marker-end="url(#a2)"/>
+            </g>
+            <rect class="dbox" x="144" y="16" width="168" height="56" rx="12"/>
+            <text class="dt" x="228" y="40" text-anchor="middle">Invite a Host</text>
+            <text class="ds" x="228" y="58" text-anchor="middle">Contact + optional note</text>
+            <rect class="dbox" x="544" y="16" width="168" height="56" rx="12"/>
+            <text class="dt" x="628" y="40" text-anchor="middle">Follow progress</text>
+            <text class="ds" x="628" y="58" text-anchor="middle">Setup steps completed</text>
+            <rect class="dbox" x="144" y="130" width="168" height="56" rx="12"/>
+            <text class="dt" x="228" y="154" text-anchor="middle">Join TurnBnB</text>
+            <text class="ds" x="228" y="172" text-anchor="middle">New or existing account</text>
+            <rect class="dbox acc" x="344" y="130" width="168" height="56" rx="12"/>
+            <text class="dt" x="428" y="154" text-anchor="middle">Create property</text>
+            <text class="ds" x="428" y="172" text-anchor="middle">2 required fields</text>
+            <rect class="dbox dash" x="544" y="130" width="168" height="56" rx="12"/>
+            <text class="dt" x="628" y="154" text-anchor="middle">Connect calendar</text>
+            <text class="ds" x="628" y="172" text-anchor="middle">Optional</text>
+          </svg>
+        </div>
+
+        <div class="stage">
+          <div class="rail" style="--n:3">
+            <figure class="shot drift">
+              <div class="screen app"><div class="app-body" tabindex="0" aria-label="Invite a Host screen, scrollable"><img src="turnbnb/img/invite-host-body.jpg" alt="Invite a Host form with Host email, phone number, and optional note"></div><img class="app-nav" src="turnbnb/img/invite-host-nav.jpg" alt=""></div>
+              <figcaption><span class="k">Contact details + optional note</span><span>The Team Leader's part is one short form. The Host does the setup.</span></figcaption>
+            </figure>
+            <figure class="shot drift">
+              <div class="screen" tabindex="0" aria-label="Cleaning Basics screen, scrollable"><img src="turnbnb/img/cleaning-basics.jpg" alt="Cleaning Basics with per-cleaning budget, estimated monthly jobs, and auto-detected property details"></div>
+              <figcaption><span class="k">Only essential information first</span><span>Two required fields create the property. Details are pre-filled and editable later.</span></figcaption>
+            </figure>
+            <figure class="shot drift">
+              <div class="screen" tabindex="0" aria-label="Sync Calendar screen, scrollable"><img src="turnbnb/img/sync-calendar.jpg" alt="Sync Calendar with Airbnb, Booking.com, Vrbo, and a Skip for now option"></div>
+              <figcaption><span class="k">Calendar connection stays optional</span><span>The property exists before any calendar is connected, and Hosts can skip this step.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+        <p class="note">Longer screens scroll inside their frames, like the app.</p>
+      </div>
+    </section>
+
+    <!-- 05 Challenge 02 -->
+    <section class="block" aria-labelledby="c2">
+      <div class="sec-head">
+        <p class="label"><b>02</b> / Subscriptions &amp; access</p>
+        <h2 id="c2">Monetizing growth without creating dead ends.</h2>
+        <p>Team Leader plans can limit markets, properties, visibility to Hosts, and team size. The client also wanted Team Leaders to buy one more market or property without upgrading their whole plan.</p>
+        <p class="lead-line">Instead of designing a different paywall for every restriction, I created one decision pattern that could work across multiple triggers.</p>
+      </div>
+
+      <ul class="gates" style="margin-top:clamp(40px,5vw,56px)">
+        <li><p class="label">Passive</p><h3>Visibility</h3><p>Free Team Leaders are hidden from Hosts. The app explains it without blocking anything.</p></li>
+        <li><p class="label">High intent</p><h3>Property access</h3><p>Appears when a Team Leader opens a restricted property or tries to contact a Host.</p></li>
+        <li><p class="label">Growth</p><h3>Cleaner growth</h3><p>Appears only when a Team Leader adds another cleaner.</p></li>
+      </ul>
+
+      <div class="diagram wide drift" style="margin-top:clamp(40px,5vw,64px)">
+        <svg viewBox="0 0 760 330" role="img" aria-label="Five triggers lead to one decision pattern with three next steps: add one, upgrade plan, not now">
+          <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+          <text class="dm" x="0" y="14">Multiple triggers</text>
+          <g class="dline">
+            <path d="M70 86V110M225 86V110M380 86V110M535 86V110M690 86V110M70 110H690"/>
+            <path d="M380 110V138" marker-end="url(#a3)"/>
+            <path d="M380 200V225M190 225H570"/>
+            <path d="M190 225V248" marker-end="url(#a3)"/>
+            <path d="M380 225V248" marker-end="url(#a3)"/>
+            <path d="M570 225V248" marker-end="url(#a3)"/>
+          </g>
+          <rect class="dbox dash" x="0" y="30" width="140" height="56" rx="12"/>
+          <text class="dt" x="70" y="54" text-anchor="middle">Visibility</text>
+          <text class="ds" x="70" y="72" text-anchor="middle">Hidden from Hosts</text>
+          <rect class="dbox" x="155" y="30" width="140" height="56" rx="12"/>
+          <text class="dt" x="225" y="54" text-anchor="middle">Property access</text>
+          <text class="ds" x="225" y="72" text-anchor="middle">Restricted property</text>
+          <rect class="dbox" x="310" y="30" width="140" height="56" rx="12"/>
+          <text class="dt" x="380" y="54" text-anchor="middle">Property access</text>
+          <text class="ds" x="380" y="72" text-anchor="middle">Contact a Host</text>
+          <rect class="dbox" x="465" y="30" width="140" height="56" rx="12"/>
+          <text class="dt" x="535" y="54" text-anchor="middle">Plan limits</text>
+          <text class="ds" x="535" y="72" text-anchor="middle">Add market / property</text>
+          <rect class="dbox" x="620" y="30" width="140" height="56" rx="12"/>
+          <text class="dt" x="690" y="54" text-anchor="middle">Cleaner growth</text>
+          <text class="ds" x="690" y="72" text-anchor="middle">Add another cleaner</text>
+          <rect class="dbox acc" x="260" y="140" width="240" height="60" rx="14"/>
+          <text class="dt" x="380" y="166" text-anchor="middle" style="font-size:15px">One decision pattern</text>
+          <text class="ds" x="380" y="185" text-anchor="middle">The same choice at every trigger</text>
+          <rect class="dbox" x="100" y="250" width="180" height="56" rx="12"/>
+          <text class="dt" x="190" y="274" text-anchor="middle">Add one</text>
+          <text class="ds" x="190" y="292" text-anchor="middle">One market or property</text>
+          <rect class="dbox" x="290" y="250" width="180" height="56" rx="12"/>
+          <text class="dt" x="380" y="274" text-anchor="middle">Upgrade plan</text>
+          <text class="ds" x="380" y="292" text-anchor="middle">Move to a larger plan</text>
+          <rect class="dbox" x="480" y="250" width="180" height="56" rx="12"/>
+          <text class="dt" x="570" y="274" text-anchor="middle">Not now</text>
+          <text class="ds" x="570" y="292" text-anchor="middle">Continue browsing</text>
+          <text class="dm" x="0" y="326">Dashed: passive, nothing is blocked</text>
+        </svg>
+      </div>
+
+      <p style="margin-top:20px; color:var(--muted); max-width:60ch"><strong style="color:var(--ink); font-weight:600">One pattern, multiple triggers.</strong> The same decision supports property, market, and cleaner restrictions, so Team Leaders learn it once and always see a way forward.</p>
+
+      <div class="rows">
+        <div class="row">
+          <div class="stage">
+            <div class="rail" style="--n:2">
+              <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Market search screen"><img src="turnbnb/img/market-search.jpg" alt="Where do you want to work? Market search with a Your first market is free badge"></div><figcaption><span class="tag">Search</span></figcaption></figure>
+              <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Market selected screen"><img src="turnbnb/img/market-selected.jpg" alt="Selected market showing properties, hosts, and Team Leaders in Downtown Miami"></div><figcaption><span class="tag">Selected</span></figcaption></figure>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label">Market selection</p>
+            <h3>Start with what's free.</h3>
+            <p>The first market establishes value before any limit appears. Local demand shows up the moment a market is selected.</p>
+          </div>
+        </div>
+
+        <div class="row rev">
+          <div class="row-text">
+            <p class="label">Manage markets</p>
+            <h3>Make limits visible.</h3>
+            <p>Plan usage sits at the top of the screen, so a Team Leader sees the limit before reaching it, with Upgrade one tap away.</p>
+          </div>
+          <div class="stage">
+            <figure class="shot single drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Manage Markets screen, scrollable"><img src="turnbnb/img/manage-markets-body.jpg" alt="Manage Markets with a Free Plan usage meter showing 1 of 1 markets used"></div><img class="app-nav" src="turnbnb/img/manage-markets-nav.jpg" alt=""></div><figcaption><span class="k">Usage before the limit</span></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">
+            <div class="rail" style="--n:2">
+              <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Manage add-ons screen"><img src="turnbnb/img/manage-addons-body.jpg" alt="Manage add-ons listing active and available Extra Market and Extra Property add-ons"></div><img class="app-nav" src="turnbnb/img/manage-addons-nav.jpg" alt=""></div><figcaption><span class="k">Billing rules up front</span></figcaption></figure>
+              <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Add-on added confirmation"><img src="turnbnb/img/addon-added.jpg" alt="Add-on added confirmation showing the add-on is active immediately"></div><figcaption><span class="k">Active immediately</span></figcaption></figure>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label"><b>Add one</b></p>
+            <h3>Offer a proportional next step.</h3>
+            <p>A Team Leader who needs one more market or property can add exactly that, without upgrading the entire plan. The add-on works right away.</p>
+          </div>
+        </div>
+
+        <div class="row rev">
+          <div class="row-text">
+            <p class="label"><b>Upgrade</b></p>
+            <h3>Compare plans, then confirm what changes.</h3>
+            <p>Plans sit side by side with their limits. Before confirming, the summary shows what the new plan includes next to current usage.</p>
+          </div>
+          <div class="stage">
+            <div class="rail" style="--n:2">
+              <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Change plan screen, scrollable"><img src="turnbnb/img/change-plan.jpg" alt="Change your plan comparing Free, Launch, and Growth plans"></div><figcaption><span class="k">Limits side by side</span></figcaption></figure>
+              <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Upgrade summary screen"><img src="turnbnb/img/upgrade-summary-body.jpg" alt="Upgrade to Growth summary showing plan includes versus current usage"></div><img class="app-nav" src="turnbnb/img/upgrade-summary-nav.jpg" alt=""></div><figcaption><span class="k">Included vs. current usage</span></figcaption></figure>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; gap:clamp(32px,4vw,48px)">
+          <div class="row-text">
+            <p class="label">Scaling down</p>
+            <h3>Leaving a limit is as clear as reaching one.</h3>
+            <p>Removing an add-on states exactly when it ends. If a downgrade leaves a Team Leader over the new limits, the required add-ons are applied for them, with no blocker screen.</p>
+          </div>
+          <div class="stage">
+            <div class="rail" style="--n:3">
+              <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Remove add-on screen"><img src="turnbnb/img/remove-addon-body.jpg" alt="Remove Extra Market add-on, explaining it stays active until renewal"></div><img class="app-nav" src="turnbnb/img/remove-addon-nav.jpg" alt=""></div><figcaption><span class="k">Stays active until renewal</span></figcaption></figure>
+              <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Add-on removed confirmation"><img src="turnbnb/img/addon-removed.jpg" alt="Add-on removed confirmation with removal scheduled on the renewal date"></div><figcaption><span class="k">Removal scheduled, not instant</span></figcaption></figure>
+              <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Subscription summary screen, scrollable"><img src="turnbnb/img/subscription-summary-body.jpg" alt="Subscription summary showing required add-ons applied automatically after a downgrade"></div><img class="app-nav" src="turnbnb/img/subscription-summary-nav.jpg" alt=""></div><figcaption><span class="k">Required add-ons applied automatically</span></figcaption></figure>
+            </div>
+          </div>
+          <p class="note">Prices and plan names shown are placeholders.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Mobile UI -->
+    <section class="block" aria-labelledby="ui">
+      <div class="sec-head" style="margin-bottom:clamp(40px,5vw,64px)">
+        <p class="label">Mobile UI</p>
+        <h2 id="ui">One product, tailored to each role.</h2>
+        <p>Hosts, Team Leaders, and Cleaners share the same navigation, cards, forms, and status colors. What changes is the information and the actions each role sees.</p>
+      </div>
+      <div class="gallery">
+        <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Host calendar, scrollable"><img src="turnbnb/img/host-calendar-body.jpg" alt="Host calendar with status filters and cleanings per month"></div><img class="app-nav" src="turnbnb/img/host-calendar-nav.jpg" alt=""></div><figcaption><span class="tag">Host · Calendar</span></figcaption></figure>
+        <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="One-time cleaning, scrollable"><img src="turnbnb/img/one-time-cleaning-body.jpg" alt="Create one-time cleaning form with a banner noting an existing cleaning on that date"></div><img class="app-nav" src="turnbnb/img/one-time-cleaning-nav.jpg" alt=""></div><figcaption><span class="tag">Host · One-time cleaning</span></figcaption></figure>
+        <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Cleaner job details, scrollable"><img src="turnbnb/img/cleaner-job-body.jpg" alt="Cleaner job details with date, time, team leader, host, checklist, and notes"></div><img class="app-nav" src="turnbnb/img/cleaner-job-nav.jpg" alt=""></div><figcaption><span class="tag">Cleaner · Job details</span></figcaption></figure>
+        <figure class="shot drift"><div class="screen" tabindex="0" aria-label="First property empty state"><img src="turnbnb/img/first-property.jpg" alt="Add your first property empty state with Add Property and Add details manually"></div><figcaption><span class="tag">Host · First property</span></figcaption></figure>
+      </div>
+    </section>
+
+    <!-- 07 Outcome -->
+    <section class="block" aria-labelledby="out">
+      <div class="outcome">
+        <div style="display:grid; gap:24px; align-content:start">
+          <p class="label">Outcome</p>
+          <div class="sec-head"><h2 id="out">Outcome &amp; next steps</h2></div>
+          <p style="color:var(--muted)">TurnBnB is currently in development. I delivered:</p>
+          <ul class="delivered">
+            <li>Product and user flows</li>
+            <li>High-fidelity mobile UI</li>
+            <li>Interactive prototypes</li>
+            <li>Subscription and paywall UX</li>
+            <li>Host and property workflows</li>
+            <li>Interaction guidance for development</li>
+          </ul>
+        </div>
+        <div class="reflect">
+          <p class="quote">A paywall is a decision, not just a screen.</p>
+          <p>Designing that decision once, as a reusable pattern, made each new restriction easier to understand and easier to design consistently. Changing requirements also taught me to keep confirmed behavior separate from explored ideas.</p>
+          <div style="display:grid; gap:12px; margin-top:12px">
+            <p class="label">What I'd validate after launch</p>
+            <ul class="validate">
+              <li>Add-on vs. upgrade comprehension</li>
+              <li>Host onboarding drop-off</li>
+              <li>Understanding of plan limits</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage closing">
+        <div class="rail" style="--n:3">
+          <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Market search"><img src="turnbnb/img/market-search.jpg" alt="Team Leader market search"></div></figure>
+          <figure class="shot drift"><div class="screen" tabindex="0" aria-label="Cleaning Basics, scrollable"><img src="turnbnb/img/cleaning-basics.jpg" alt="Host Cleaning Basics"></div></figure>
+          <figure class="shot drift"><div class="screen app"><div class="app-body" tabindex="0" aria-label="Cleaner job details, scrollable"><img src="turnbnb/img/cleaner-job-body.jpg" alt="Cleaner job details"></div><img class="app-nav" src="turnbnb/img/cleaner-job-nav.jpg" alt=""></div></figure>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <a class="next" href="prince.html"><span class="label">Next project</span><strong>Prince Auto Repair →</strong></a>
+    </footer>
+
+    <section class="pf-contact" id="contact" aria-labelledby="contact-h">
+      <p class="label">Contact</p>
+      <h2 id="contact-h">Let's talk about your product.</h2>
+      <p class="pf-contact-sub">I'm looking for full-time Product Designer roles in the U.S. The fastest way to reach me is email.</p>
+      <div class="pf-links">
+        <div class="pf-email">
+          <a href="mailto:torosyanarmanush@gmail.com" class="pf-email-addr">torosyanarmanush@gmail.com</a>
+          <button type="button" class="pf-copy" data-copy="torosyanarmanush@gmail.com" id="copy-email">Copy</button>
+        </div>
+        <div class="pf-row">
+          <a href="https://linkedin.com/in/armanush-torosyan" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume (PDF) ↗</a>
+        </div>
+      </div>
+    </section>
+    <footer class="pf-foot">
+      <span>© 2026 Armanush Torosyan</span>
+      <span>Product Designer · South Florida, USA</span>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll('.pf-copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function done(msg) { b.textContent = msg; setTimeout(function () { b.textContent = 'Copy'; }, 1800); }
+      try {
+        navigator.clipboard.writeText(t).then(function () { done('Copied'); }, function () { sel(); });
+      } catch (e) { sel(); }
+      function sel() {
+        var a = b.parentNode.querySelector('.pf-email-addr');
+        var r = document.createRange(); r.selectNodeContents(a);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Armanush Torosyan, Product Designer. Mobile apps, SaaS dashboards, and healthcare UX: case studies, resume, and contact.">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+</style>
+<title>Armanush Torosyan Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Portfolio shell: same Geist system as the case studies; one italic serif voice for emphasis; ink accent, each project keeps its own color */
+:root {
+  --bg: #F6F5F8; --surface: #FFFFFF; --ink: #18161D; --muted: #605B6B; --line: #DDD9E4;
+  --accent: #18161D; --on-accent: #FFFFFF; --screen: #FFFFFF; --shadow: rgba(30, 24, 44, 0.22);
+  --tb-stage: #ECE9F1; --tb: #5B1E86;
+  --pr-stage: #EEEAEA; --pr: #A82A33;
+  --hv-stage: #E8EDF2; --hv: #1F5D96;
+  --f-display: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121116; --surface: #1B1A21; --ink: #F1EFF5; --muted: #A49FAF; --line: #2F2C38;
+    --accent: #F1EFF5; --on-accent: #121116; --screen: #FFFFFF; --shadow: rgba(0,0,0,.55);
+    --tb-stage: #1E1C25; --tb: #C49BE8; --pr-stage: #221D1F; --pr: #EE9AA0; --hv-stage: #1B2027; --hv: #8DBBE8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121116; --surface: #1B1A21; --ink: #F1EFF5; --muted: #A49FAF; --line: #2F2C38;
+  --accent: #F1EFF5; --on-accent: #121116; --screen: #FFFFFF; --shadow: rgba(0,0,0,.55);
+  --tb-stage: #1E1C25; --tb: #C49BE8; --pr-stage: #221D1F; --pr: #EE9AA0; --hv-stage: #1B2027; --hv: #8DBBE8;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
+h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
+p { max-width: 62ch; text-wrap: pretty; }
+img { display: block; max-width: 100%; height: auto; }
+em.s { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.in { padding-inline: clamp(0px, 3vw, 40px); }
+.label { font-family: var(--f-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+
+/* Nav (identical to case studies) */
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+.nav .name { font-weight: 600; text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: clamp(16px, 3vw, 36px); flex-wrap: wrap; }
+.nav ul a { text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; padding-block: 6px; }
+.nav ul a:hover, .nav ul a[aria-current="page"] { color: var(--ink); }
+
+/* Buttons */
+.btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 500; font-size: 15.5px; text-decoration: none; border: 1px solid var(--ink); transition: transform .2s, background .2s, color .2s; }
+.btn.primary { background: var(--ink); color: var(--bg); }
+.btn.ghost { color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--bg); }
+.btn.primary:hover { transform: translateY(-1px); }
+
+/* Home hero */
+.hero { padding-block: clamp(40px, 7vw, 96px) clamp(24px, 4vw, 40px); display: grid; gap: clamp(28px, 4vw, 40px); }
+.hero h1 { font-size: clamp(48px, 8.4vw, 124px); line-height: 0.96; letter-spacing: -0.05em; font-weight: 600; max-width: 13ch; }
+.hero h1 em.s { font-size: 1.06em; letter-spacing: -0.02em; }
+.hero-low { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 80px); align-items: end; }
+.hero-low p { font-size: clamp(18px, 1.7vw, 21px); color: var(--muted); max-width: 46ch; }
+.hero-low p strong { color: var(--ink); font-weight: 500; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-top: 20px; border-top: 1px solid var(--line); }
+.meta dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.meta dd { margin: 4px 0 0; font-weight: 500; }
+
+/* Work */
+.work { padding-top: clamp(56px, 8vw, 104px); display: grid; gap: clamp(72px, 10vw, 136px); scroll-margin-top: 24px; }
+.work-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: clamp(-48px, -5vw, -24px); }
+.work-head h2 { font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.02em; font-weight: 600; }
+.project { position: relative; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+.project.rev { grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr); }
+.project.rev .p-text { order: 2; }
+.p-text { display: grid; gap: 16px; align-content: center; }
+.p-num { font-family: var(--f-mono); font-size: 12px; letter-spacing: .09em; color: var(--muted); display: flex; gap: 14px; align-items: center; }
+.p-num b { font-weight: 500; color: var(--pc); }
+.p-text h3 { font-size: clamp(32px, 3.8vw, 52px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; }
+.p-text h3 a { text-decoration: none; }
+.p-text h3 a::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: 28px; }
+.p-text h3 a:focus-visible { outline: none; }
+.p-text h3 a:focus-visible::after { outline: 2px solid var(--ink); outline-offset: 6px; }
+.p-text .lede { font-size: 18px; color: var(--muted); max-width: 34ch; }
+.shows { display: grid; gap: 0; border-top: 1px solid var(--line); margin-top: 4px; }
+.shows li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; font-weight: 500; display: flex; gap: 10px; align-items: center; }
+.shows li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--pc); flex: none; }
+.p-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+.status { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.read { font-weight: 600; font-size: 15.5px; display: inline-flex; gap: 8px; align-items: center; }
+.read span { transition: transform .25s; }
+.project:hover .read span { transform: translateX(4px); }
+.p-visual { border-radius: 28px; background: var(--ps); overflow: hidden; position: relative; aspect-ratio: 16 / 11; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.project:hover .p-visual { transform: translateY(-4px); }
+.tb { --pc: var(--tb); --ps: var(--tb-stage); }
+.pr { --pc: var(--pr); --ps: var(--pr-stage); }
+.hv { --pc: var(--hv); --ps: var(--hv-stage); }
+
+.browser { background: var(--screen); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -34px var(--shadow); }
+.browser .bar { height: 22px; display: flex; align-items: center; gap: 5px; padding-inline: 10px; background: #F1F1F3; border-bottom: 1px solid #E3E3E8; }
+.browser .bar i { width: 7px; height: 7px; border-radius: 50%; background: #CFCFD6; }
+.phone { background: var(--screen); border: 1px solid var(--line); border-radius: 26px; overflow: hidden; box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -32px var(--shadow); }
+
+/* TurnBnB composition: three phones rising from the bottom edge */
+.tb .p-visual { display: flex; justify-content: center; align-items: flex-start; gap: 4%; padding: 6% 6% 0; }
+.tb .phone { flex: 0 0 27%; }
+.tb .phone.lead { flex-basis: 31%; }
+.tb .phone:not(.lead) { margin-top: 7%; }
+/* Prince composition: dashboard with live site overlapping */
+.pr .p-visual { padding: 7% 0 0 7%; }
+.pr .p-dash { width: 82%; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.pr .p-site { position: absolute; width: 46%; right: 5%; bottom: 7%; }
+/* Haven composition: three browsers */
+.hv .p-visual { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 3%; align-items: start; padding: 6% 4% 0; }
+.hv .browser:not(.lead) { margin-top: 9%; }
+
+/* Approach strip */
+.approach { margin-top: clamp(104px, 13vw, 176px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.approach h2, .h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 600; max-width: 16ch; }
+.approach .intro { display: grid; gap: 20px; }
+.approach .intro p { color: var(--muted); }
+.principles { display: grid; border-top: 1px solid var(--line); }
+.principles li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 4px 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.principles .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 6px; }
+.principles h3 { font-size: 20px; letter-spacing: -0.015em; font-weight: 600; }
+.principles p { grid-column: 2; color: var(--muted); font-size: 16px; }
+.principles a { color: var(--ink); text-underline-offset: 3px; }
+
+/* About */
+.about-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: clamp(32px, 6vw, 96px); align-items: end; padding-block: clamp(40px, 6vw, 80px) 0; }
+.about-head { display: grid; gap: 20px; align-content: end; }
+.about-hero h1 { font-size: clamp(42px, 5.6vw, 76px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; max-width: 12ch; }
+.about-sub { font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.portrait { margin: 0; border-radius: 20px; overflow: hidden; width: 100%; justify-self: end; aspect-ratio: 4 / 5; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.about-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); margin-top: clamp(40px, 6vw, 72px); padding-top: 28px; border-top: 1px solid var(--line); }
+.about-intro p { font-size: 18px; color: var(--muted); }
+.about-intro p.big { font-size: clamp(21px, 2vw, 26px); line-height: 1.35; letter-spacing: -0.02em; color: var(--ink); font-weight: 500; }
+.section { margin-top: clamp(96px, 12vw, 160px); }
+.sec-top { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(24px, 3vw, 36px); }
+.sec-top h2 { font-size: clamp(30px, 3.6vw, 48px); letter-spacing: -0.035em; line-height: 1.05; font-weight: 600; max-width: 18ch; }
+.xp { border-top: 1px solid var(--line); }
+.xp li { display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.2fr); gap: 8px 32px; padding: 22px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.xp .when { font-family: var(--f-mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.xp .role strong { display: block; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+.xp .role span { color: var(--muted); font-size: 15px; }
+.xp .what { color: var(--muted); font-size: 16px; }
+.xp .what a { color: var(--ink); text-underline-offset: 3px; }
+.xp li.pre .role strong { font-weight: 500; }
+.edu-h { font-size: 20px; letter-spacing: -0.015em; font-weight: 600; margin: clamp(48px, 6vw, 72px) 0 16px; }
+.edu-list li { padding: 16px 0; }
+.edu-list .role strong { font-size: 16.5px; }
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; margin-top: 32px; }
+.edu li { padding: 14px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; font-size: 15.5px; }
+.edu li span { color: var(--muted); font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
+.tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; border-top: 1px solid var(--line); align-self: start; }
+.tools div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.tools dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.tools dd { margin-top: 4px; font-weight: 500; }
+.work-style { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); }
+.work-style .txt { display: grid; gap: 18px; align-content: start; }
+.work-style .txt p { color: var(--muted); font-size: 18px; }
+.ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 32px); }
+.ways li { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 2.6vw, 32px); display: grid; gap: 10px; align-content: start; }
+.ways h3 { font-size: 21px; letter-spacing: -0.02em; font-weight: 600; }
+.ways p { color: var(--muted); font-size: 16px; }
+.ways .from { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.ways .from a { color: var(--ink); }
+.personal { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.personal figure { border-radius: 24px; overflow: hidden; }
+.personal figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.personal .txt { display: grid; gap: 22px; }
+
+.personal .txt p { color: var(--muted); font-size: 18px; }
+.personal .txt p.label, .work-style .txt p.label { font-size: 12px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; border-top: 1px solid var(--line); }
+.facts div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin-top: 4px; font-weight: 500; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+  }
+}
+@keyframes drift { from { transform: translateY(28px); } to { transform: none; } }
+
+@media (max-width: 960px) {
+  .project, .project.rev, .hero-low, .approach, .about-hero, .about-intro, .personal { grid-template-columns: minmax(0, 1fr); }
+  .project.rev .p-text { order: 0; }
+  .work-style { grid-template-columns: minmax(0, 1fr); }
+  .project .p-visual { order: -1; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+  .portrait { justify-self: start; max-width: 240px; }
+  .xp li { grid-template-columns: 120px minmax(0, 1fr); }
+  .xp .what { grid-column: 2; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .p-visual { border-radius: 20px; aspect-ratio: 4 / 3.4; }
+  .ways, .edu, .facts, .tools { grid-template-columns: minmax(0, 1fr); }
+  .xp li { grid-template-columns: minmax(0, 1fr); }
+  .xp .what { grid-column: 1; }
+  .hv .p-visual { grid-template-columns: 1fr; padding: 8% 10% 0; }
+  .hv .p-visual .browser:not(.lead) { display: none; }
+}
+
+/* Shared portfolio chrome */
+.nav ul a[aria-current="page"] { color: var(--ink); }
+.pf-contact { margin-top: clamp(96px, 12vw, 160px); padding: clamp(36px, 6vw, 72px); border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 18px; }
+.pf-contact h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; max-width: 16ch; }
+.pf-contact-sub { color: var(--muted); max-width: 48ch; }
+.pf-links { display: grid; gap: 16px; margin-top: 12px; }
+.pf-email { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pf-email-addr { font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; letter-spacing: -0.02em; text-decoration: none; border-bottom: 2px solid var(--accent); overflow-wrap: anywhere; }
+.pf-copy { font: 500 13px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 10px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.pf-copy:hover { border-color: var(--ink); }
+.pf-copy:focus-visible, .pf-row a:focus-visible, .pf-email-addr:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pf-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.pf-row a { font-weight: 500; text-decoration: none; color: var(--muted); padding-block: 6px; }
+.pf-row a:hover { color: var(--ink); }
+.pf-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
+.foot + .pf-contact { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="wrap"><div class="in">
+    <header class="nav">
+      <a class="name" href="index.html">Armanush Torosyan</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <p class="label">Armanush Torosyan · Product Designer</p>
+      <h1 id="hero-h">I make complicated products <em class="s">feel simple.</em></h1>
+      <div class="hero-low">
+        <p>Multi-role mobile apps, healthcare platforms, and operational dashboards. <strong>I start by learning how the business really works</strong>, then design the flows, interfaces, and prototypes that make it clear for the people using it.</p>
+        <div class="btns">
+          <a class="btn primary" href="#work">See the work ↓</a>
+          <a class="btn ghost" href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a>
+        </div>
+      </div>
+      <dl class="meta">
+        <div><dt>Experience</dt><dd>4+ years in product and UX/UI design</dd></div>
+        <div><dt>Focus</dt><dd>Mobile, SaaS dashboards, healthcare</dd></div>
+        <div><dt>Now</dt><dd>Freelance, after a full-time role at Haven Health Management</dd></div>
+        <div><dt>Based in</dt><dd>South Florida · Open to remote</dd></div>
+      </dl>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="work-h">
+      <div class="work-head"><h2 id="work-h">Selected work</h2><span class="label">3 case studies · about 4 minutes each</span></div>
+
+      <article class="project tb">
+        <div class="p-text">
+          <p class="p-num"><b>01</b> Mobile product · iOS</p>
+          <h3><a href="turnbnb.html">TurnBnB</a></h3>
+          <p class="lede">A two-sided marketplace app connecting rental hosts with cleaning teams.</p>
+          <ul class="shows"><li>Multi-role workflows</li><li>Access and permission logic</li><li>Subscriptions and paywalls</li></ul>
+          <div class="p-foot"><span class="status">In development</span><span class="read">Read case study <span>→</span></span></div>
+        </div>
+        <div class="p-visual drift" aria-hidden="true">
+          <div class="phone"><img src="turnbnb/img/market-selected.jpg" alt=""></div>
+          <div class="phone lead"><img src="turnbnb/img/cleaning-basics.jpg" alt=""></div>
+          <div class="phone"><img src="turnbnb/img/host-calendar.jpg" alt=""></div>
+        </div>
+      </article>
+
+      <article class="project pr rev">
+        <div class="p-text">
+          <p class="p-num"><b>02</b> Product discovery · SaaS dashboard</p>
+          <h3><a href="prince.html">Prince Auto Repair</a></h3>
+          <p class="lede">A website brief that discovery turned into a shop-management product.</p>
+          <ul class="shows"><li>Business discovery</li><li>Operational workflow UX</li><li>AI-assisted prototyping</li></ul>
+          <div class="p-foot"><span class="status">Website live · Platform prototype</span><span class="read">Read case study <span>→</span></span></div>
+        </div>
+        <div class="p-visual drift" aria-hidden="true">
+          <div class="browser p-dash"><div class="bar"><i></i><i></i><i></i></div><img src="prince/img/dashboard.jpg" alt=""></div>
+          <div class="browser p-site"><div class="bar"><i></i><i></i><i></i></div><img src="prince/img/site-appointment.jpg" alt=""></div>
+        </div>
+      </article>
+
+      <article class="project hv">
+        <div class="p-text">
+          <p class="p-num"><b>03</b> Healthcare UX · Responsive web</p>
+          <h3><a href="haven.html">Haven Health Management</a></h3>
+          <p class="lede">Making dense behavioral-health content clear and consistent across several websites.</p>
+          <ul class="shows"><li>Information architecture</li><li>Reusable UI patterns</li><li>Developer handoff</li></ul>
+          <div class="p-foot"><span class="status">Full-time · On-site · 2024–2025</span><span class="read">Read case study <span>→</span></span></div>
+        </div>
+        <div class="p-visual drift" aria-hidden="true">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/mh-therapies.jpg" alt=""></div>
+          <div class="browser lead"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/careers-desktop.jpg" alt=""></div>
+          <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/op-structure.jpg" alt=""></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="approach" aria-labelledby="ap-h">
+      <div class="intro">
+        <p class="label">How I work</p>
+        <h2 id="ap-h">Six years in customer care came first.</h2>
+        <p>Before design, I spent years listening to people explain what wasn't working. I still start there: with the problem, before opening Figma.</p>
+        <a class="btn ghost" href="about.html" style="justify-self:start">More about me →</a>
+      </div>
+      <ol class="principles">
+        <li><span class="n">01</span><h3>Learn the business first</h3><p>Discovery turned a website brief into a shop-management product. <a href="prince.html">Prince Auto Repair</a></p></li>
+        <li><span class="n">02</span><h3>Design the rules, then the screens</h3><p>I mapped roles and permissions before any UI for a three-role marketplace. <a href="turnbnb.html">TurnBnB</a></p></li>
+        <li><span class="n">03</span><h3>Make the next step obvious</h3><p>Every healthcare page offers a way forward, whatever the visitor's readiness. <a href="haven.html">Haven</a></p></li>
+        <li><span class="n">04</span><h3>Prototype past static screens</h3><p>I use Figma, ChatGPT, Claude, and Lovable to test how a product behaves, not only how it looks.</p></li>
+      </ol>
+    </section>
+
+    <section class="pf-contact" id="contact" aria-labelledby="contact-h">
+      <p class="label">Contact</p>
+      <h2 id="contact-h">Let's talk about your product.</h2>
+      <p class="pf-contact-sub">I'm looking for full-time Product Designer roles in the U.S. The fastest way to reach me is email.</p>
+      <div class="pf-links">
+        <div class="pf-email">
+          <a href="mailto:torosyanarmanush@gmail.com" class="pf-email-addr">torosyanarmanush@gmail.com</a>
+          <button type="button" class="pf-copy" data-copy="torosyanarmanush@gmail.com" id="copy-email">Copy</button>
+        </div>
+        <div class="pf-row">
+          <a href="https://linkedin.com/in/armanush-torosyan" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume (PDF) ↗</a>
+        </div>
+      </div>
+    </section>
+    <footer class="pf-foot">
+      <span>© 2026 Armanush Torosyan</span>
+      <span>Product Designer · South Florida, USA</span>
+    </footer>
+</div></div>
+<script>
+(function () {
+  document.querySelectorAll('.pf-copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function done(msg) { b.textContent = msg; setTimeout(function () { b.textContent = 'Copy'; }, 1800); }
+      try {
+        navigator.clipboard.writeText(t).then(function () { done('Copied'); }, function () { sel(); });
+      } catch (e) { sel(); }
+      function sel() {
+        var a = b.parentNode.querySelector('.pf-email-addr');
+        var r = document.createRange(); r.selectNodeContents(a);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

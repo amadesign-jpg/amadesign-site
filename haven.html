@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+</style>
+<title>Haven Health Management Case Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same portfolio system as TurnBnB (12-col editorial page, quiet stages, mono labels); Haven blue replaces TurnBnB purple as the project accent */
+:root {
+  --bg: #F6F5F8;
+  --surface: #FFFFFF;
+  --stage: #E8EDF2;
+  --ink: #18161D;
+  --muted: #605B6B;
+  --line: #DDD9E4;
+  --accent: #1F5D96;
+  --accent-soft: #E5EEF7;
+  --on-accent: #FFFFFF;
+  --screen: #FFFFFF;
+  --shadow: rgba(24, 44, 72, 0.22);
+  --f-display: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121116; --surface: #1B1A21; --stage: #1B2027; --ink: #F1EFF5; --muted: #A49FAF;
+    --line: #2F2C38; --accent: #8DBBE8; --accent-soft: #1D2A38; --on-accent: #0F1A26; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121116; --surface: #1B1A21; --stage: #1B2027; --ink: #F1EFF5; --muted: #A49FAF;
+  --line: #2F2C38; --accent: #8DBBE8; --accent-soft: #1D2A38; --on-accent: #0F1A26; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, .viewport:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+h1, h2, h3, p, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
+p { max-width: 62ch; text-wrap: pretty; }
+img { display: block; max-width: 100%; height: auto; }
+
+.wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.in { padding-inline: clamp(0px, 3vw, 40px); }
+
+.label {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
+}
+.label b { color: var(--accent); font-weight: 500; }
+
+/* Nav */
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+.nav .name { font-weight: 600; text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: clamp(16px, 3vw, 36px); flex-wrap: wrap; }
+.nav ul a, .back { text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; }
+.nav ul a:hover, .back:hover { color: var(--ink); }
+.back { display: inline-flex; gap: 8px; align-items: center; }
+
+/* Hero */
+.hero { padding-block: clamp(32px, 6vw, 72px) 0; }
+.hero h1 {
+  font-size: clamp(52px, 9vw, 120px); font-weight: 600; line-height: 0.95;
+  letter-spacing: -0.05em; margin-top: 28px; max-width: 12ch;
+}
+.hero h1 span { color: var(--accent); }
+.hero-text { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(24px, 5vw, 80px); margin-top: clamp(28px, 4vw, 48px); align-items: end; }
+.hero .sub { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500; max-width: 26ch; }
+.hero .contrib { color: var(--muted); font-size: 18px; max-width: 46ch; }
+.meta { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: clamp(36px, 5vw, 56px) 0 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.meta dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.meta dd { margin: 4px 0 0; font-weight: 500; }
+
+.hero-stage {
+  margin-top: clamp(40px, 6vw, 72px); background: var(--stage); border-radius: 28px;
+  padding: clamp(28px, 5vw, 64px) clamp(16px, 3vw, 48px) 0; overflow: hidden;
+}
+.hero-row { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: clamp(14px, 2vw, 28px); align-items: end; }
+.hero-row .browser { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-row > * { animation: rise 0.9s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-row > *:nth-child(1) { animation-delay: .08s; }
+  .hero-row > *:nth-child(3) { animation-delay: .16s; }
+}
+@keyframes rise { from { transform: translateY(40px); } to { transform: none; } }
+
+/* Browser frame */
+.browser {
+  background: var(--screen); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -34px var(--shadow);
+  min-width: 0;
+}
+.browser .bar { height: 26px; display: flex; align-items: center; gap: 6px; padding-inline: 12px; background: #F1F1F3; border-bottom: 1px solid #E3E3E8; }
+.browser .bar i { width: 8px; height: 8px; border-radius: 50%; background: #CFCFD6; }
+.browser .shot-wrap { position: relative; }
+.viewport { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: auto; }
+.viewport::-webkit-scrollbar { display: none; }
+
+/* Annotation pins */
+.pin {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  font: 600 12.5px/26px var(--f-mono); text-align: center;
+  box-shadow: 0 0 0 4px rgba(255,255,255,.85), 0 4px 12px rgba(0,0,0,.18);
+}
+.notes { display: grid; gap: 14px; }
+.notes li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: baseline; }
+.notes li .n { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 600 12.5px/26px var(--f-mono); text-align: center; transform: translateY(2px); }
+.notes li strong { font-weight: 600; display: block; letter-spacing: -0.01em; }
+.notes li span.t { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+/* Sections */
+section.block { padding-block: clamp(96px, 13vw, 176px) 0; }
+section.small { padding-block: clamp(80px, 10vw, 136px) 0; }
+.sec-head { display: grid; gap: 20px; max-width: 900px; }
+.sec-head h2 { font-size: clamp(34px, 4.8vw, 60px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; }
+.sec-head.sm h2 { font-size: clamp(28px, 3.4vw, 44px); }
+.sec-head p { color: var(--muted); font-size: 18px; }
+.lead-line { color: var(--ink) !important; font-weight: 500; }
+
+/* Overview */
+.overview { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+.overview .copy { display: grid; gap: 22px; }
+.overview .copy p { color: var(--muted); }
+.quote {
+  font-family: var(--f-display); font-size: clamp(24px, 2.8vw, 36px); line-height: 1.2;
+  letter-spacing: -0.025em; font-weight: 500; color: var(--ink) !important; max-width: 22ch;
+  padding-left: 22px; border-left: 2px solid var(--accent);
+}
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 36px); overflow-x: auto; }
+.diagram svg { display: block; width: 100%; height: auto; min-width: 560px; }
+.dbox { fill: var(--surface); stroke: var(--line); stroke-width: 1.25; }
+.dbox.acc { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.75; }
+.dband { fill: var(--bg); stroke: var(--line); stroke-width: 1.25; }
+.dline { fill: none; stroke: var(--muted); stroke-width: 1.25; opacity: .7; }
+.dhead { fill: var(--muted); }
+.dt { fill: var(--ink); font-family: var(--f-body); font-size: 14px; font-weight: 600; }
+.ds { fill: var(--muted); font-family: var(--f-body); font-size: 12px; }
+.dm { fill: var(--muted); font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; }
+
+/* Problem / result */
+.pr { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px 24px; align-items: baseline; padding-top: 22px; border-top: 1px solid var(--line); }
+.pr p { color: var(--muted); }
+.pr.result { margin-top: clamp(56px, 7vw, 88px); }
+.pr.result p { color: var(--ink); font-weight: 500; }
+
+/* Editorial rows */
+.rows { display: grid; gap: clamp(72px, 9vw, 120px); margin-top: clamp(56px, 7vw, 96px); }
+.row { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.row.rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); }
+.row.rev .row-text { order: -1; }
+.row-text { display: grid; gap: 16px; align-content: center; }
+.row-text h3 { font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -0.025em; line-height: 1.15; font-weight: 600; }
+.row-text > p { color: var(--muted); max-width: 40ch; }
+.stage { background: var(--stage); border-radius: 28px; padding: clamp(20px, 4vw, 48px); }
+.stack { display: grid; gap: 18px; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes drift { from { transform: translateY(28px); } to { transform: none; } }
+
+/* Readiness columns */
+.tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 32px); margin-top: clamp(28px, 4vw, 40px); }
+.tri figure { display: grid; gap: 14px; align-content: start; }
+figcaption { display: grid; gap: 4px; }
+figcaption .k { font-weight: 600; font-size: 15.5px; display: flex; gap: 10px; align-items: center; }
+figcaption .k::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+figcaption .tag { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Pattern strip */
+.patterns { display: grid; gap: clamp(36px, 5vw, 56px); margin-top: clamp(40px, 5vw, 56px); }
+.pattern-row { display: grid; gap: 14px; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+.crop { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--screen); }
+.pair figure { display: grid; gap: 10px; }
+
+/* Responsive showcase */
+.resp { display: grid; grid-template-columns: minmax(0, 1fr) 250px; align-items: end; }
+.resp .desk { margin-right: -70px; }
+.resp .desk .viewport { height: clamp(380px, 42vw, 540px); }
+.resp .phone { position: relative; z-index: 1; max-width: 250px; }
+.phone {
+  width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 34px; overflow: hidden;
+  background: var(--screen); border: 1px solid var(--line);
+  box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -32px var(--shadow);
+}
+.phone .viewport { height: 100%; }
+.phone img { width: 100%; }
+.resp-side { display: grid; gap: 28px; justify-items: start; }
+
+/* Dashboard */
+.iter { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(12px, 2vw, 24px); align-items: center; }
+.iter .arrow { font-family: var(--f-mono); color: var(--muted); font-size: 20px; }
+.iter figure { display: grid; gap: 12px; }
+.campaign { position: relative; margin-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(60px, 9vw, 120px); padding-right: clamp(0px, 8vw, 120px); }
+.inset { position: absolute; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--screen); box-shadow: 0 1px 2px var(--shadow), 0 24px 50px -24px var(--shadow); }
+.inset.date { width: 38%; right: 0; bottom: clamp(20px, 3vw, 40px); }
+.inset.modal { width: 20%; right: 40%; bottom: 0; }
+.dash-notes { display: flex; gap: 12px 32px; flex-wrap: wrap; margin-top: 22px; }
+.dash-notes li { display: flex; gap: 10px; align-items: center; font-size: 15.5px; font-weight: 600; }
+.dash-notes li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; transform: translateY(-2px); }
+
+/* Outcome */
+.outcome { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); }
+.delivered { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.delivered li { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.reflect { display: grid; gap: 22px; align-content: start; }
+.reflect .quote { max-width: 18ch; font-size: clamp(28px, 3.4vw, 42px); }
+.reflect p { color: var(--muted); }
+
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: clamp(48px, 6vw, 72px); margin-top: clamp(80px, 10vw, 140px); border-top: 1px solid var(--line); }
+.next { text-decoration: none; display: grid; gap: 4px; text-align: right; }
+.next strong { font-size: clamp(26px, 3vw, 40px); letter-spacing: -0.03em; font-weight: 600; transition: color .2s; }
+.next:hover strong { color: var(--accent); }
+
+@media (max-width: 960px) {
+  .hero-text, .overview, .row, .row.rev, .outcome, .resp { grid-template-columns: minmax(0, 1fr); }
+  .row.rev .row-text { order: 0; }
+  .meta { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 20px; }
+  .resp { gap: 24px; justify-items: center; }
+  .resp .desk { margin-right: 0; width: 100%; }
+  .resp .desk .viewport { height: 360px; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-row { grid-template-columns: minmax(0, 1fr); }
+  .hero-row > :not(.lead) { display: none; }
+  .tri, .pair, .delivered { grid-template-columns: minmax(0, 1fr); }
+  .pr { grid-template-columns: minmax(0, 1fr); }
+  .iter { grid-template-columns: minmax(0, 1fr); }
+  .iter .arrow { transform: rotate(90deg); justify-self: center; }
+  .campaign { padding: 0; }
+  .inset { position: static; width: 70% !important; margin-top: 14px; }
+  .stage, .hero-stage { border-radius: 20px; }
+  .pin { width: 22px; height: 22px; font-size: 11px; line-height: 22px; }
+  .next { text-align: left; }
+}
+
+/* Shared portfolio chrome */
+.nav ul a[aria-current="page"] { color: var(--ink); }
+.pf-contact { margin-top: clamp(96px, 12vw, 160px); padding: clamp(36px, 6vw, 72px); border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 18px; }
+.pf-contact h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; max-width: 16ch; }
+.pf-contact-sub { color: var(--muted); max-width: 48ch; }
+.pf-links { display: grid; gap: 16px; margin-top: 12px; }
+.pf-email { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pf-email-addr { font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; letter-spacing: -0.02em; text-decoration: none; border-bottom: 2px solid var(--accent); overflow-wrap: anywhere; }
+.pf-copy { font: 500 13px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 10px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.pf-copy:hover { border-color: var(--ink); }
+.pf-copy:focus-visible, .pf-row a:focus-visible, .pf-email-addr:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pf-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.pf-row a { font-weight: 500; text-decoration: none; color: var(--muted); padding-block: 6px; }
+.pf-row a:hover { color: var(--ink); }
+.pf-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
+.foot + .pf-contact { margin-top: 0; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="in">
+
+    <header class="nav">
+      <a class="name" href="index.html">Armanush Torosyan</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <h1>Haven Health Management<span>.</span></h1>
+      <div class="hero-text">
+        <p class="sub">Designing clearer, more consistent digital experiences across a behavioral healthcare organization.</p>
+        <p class="contrib">As a full-time UX/UI Designer on Haven's internal team, I translated complex treatment, location, insurance, and educational content into clear responsive experiences and reusable UI patterns.</p>
+      </div>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>UX/UI Designer</dd></div>
+        <div><dt>Platform</dt><dd>Responsive Web + Internal Web Tools</dd></div>
+        <div><dt>Tools</dt><dd>Figma</dd></div>
+        <div><dt>Employment</dt><dd>Full-time · On-site</dd></div>
+        <div><dt>Duration</dt><dd>July 2024 – July 2025</dd></div>
+      </dl>
+    </section>
+
+    <div class="hero-stage">
+      <div class="hero-row">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/hero-mh.jpg" alt="The Haven mental health treatment page, hero section"></div>
+        <div class="browser lead"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/hero-hhm.jpg" alt="Haven Health Management home page with a nationwide locations section"></div>
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/hero-rc.jpg" alt="Outpatient program page with breadcrumb and overview"></div>
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <section class="block" aria-labelledby="ov">
+      <div class="overview">
+        <div class="copy">
+          <p class="label">Overview</p>
+          <div class="sec-head"><h2 id="ov">A lot of information, for people who need it to be clear.</h2></div>
+          <p>Haven Health Management is a behavioral healthcare organization with treatment centers across the U.S. Its websites explain treatment options, programs, locations, insurance, and educational resources, while keeping calling, contacting admissions, and checking insurance easy to find.</p>
+          <p class="quote">The challenge wasn't designing individual pages. It was keeping a large amount of healthcare information clear and consistent everywhere it appeared.</p>
+          <p>I translated these requirements into page structures, responsive layouts, and reusable UI patterns, including a full redesign of the Recovering Champions website, and worked with developers through handoff.</p>
+        </div>
+        <div class="diagram drift">
+          <svg viewBox="0 0 640 520" role="img" aria-label="Every area of the sites leads to the same ways to get help">
+            <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+            <text class="dm" x="0" y="14">HOW THE EXPERIENCE FITS TOGETHER</text>
+            <g class="dline">
+              <path d="M320 92V112M110 112H530"/>
+              <path d="M110 112V130" marker-end="url(#a1)"/><path d="M320 112V130" marker-end="url(#a1)"/><path d="M530 112V130" marker-end="url(#a1)"/>
+              <path d="M110 190V218" marker-end="url(#a1)"/><path d="M320 190V218" marker-end="url(#a1)"/><path d="M530 190V218" marker-end="url(#a1)"/>
+              <path d="M110 278V296H530M530 278V296"/><path d="M320 278V316" marker-end="url(#a1)"/>
+              <path d="M320 370V390M110 390H530"/><path d="M110 390V408" marker-end="url(#a1)"/><path d="M320 390V408" marker-end="url(#a1)"/><path d="M530 390V408" marker-end="url(#a1)"/>
+            </g>
+            <rect class="dbox" x="180" y="34" width="280" height="58" rx="12"/>
+            <text class="dt" x="320" y="58" text-anchor="middle">Home</text>
+            <text class="ds" x="320" y="76" text-anchor="middle">Organization and treatment center sites</text>
+            <rect class="dbox" x="20" y="132" width="180" height="58" rx="12"/>
+            <text class="dt" x="110" y="156" text-anchor="middle">Treatment options</text>
+            <text class="ds" x="110" y="174" text-anchor="middle">Programs and therapies</text>
+            <rect class="dbox" x="230" y="132" width="180" height="58" rx="12"/>
+            <text class="dt" x="320" y="156" text-anchor="middle">Locations</text>
+            <text class="ds" x="320" y="174" text-anchor="middle">Facilities by state</text>
+            <rect class="dbox" x="440" y="132" width="180" height="58" rx="12"/>
+            <text class="dt" x="530" y="156" text-anchor="middle">Resources</text>
+            <text class="ds" x="530" y="174" text-anchor="middle">Articles by topic</text>
+            <rect class="dbox" x="20" y="220" width="180" height="58" rx="12"/>
+            <text class="dt" x="110" y="244" text-anchor="middle">Program pages</text>
+            <text class="ds" x="110" y="262" text-anchor="middle">Care levels, therapies</text>
+            <rect class="dbox" x="230" y="220" width="180" height="58" rx="12"/>
+            <text class="dt" x="320" y="244" text-anchor="middle">Location pages</text>
+            <text class="ds" x="320" y="262" text-anchor="middle">One facility in depth</text>
+            <rect class="dbox" x="440" y="220" width="180" height="58" rx="12"/>
+            <text class="dt" x="530" y="244" text-anchor="middle">Articles</text>
+            <text class="ds" x="530" y="262" text-anchor="middle">Category, search, related</text>
+            <rect class="dband" x="20" y="318" width="600" height="52" rx="12"/>
+            <text class="dt" x="320" y="340" text-anchor="middle">Insurance · Reviews · FAQs · Experts</text>
+            <text class="ds" x="320" y="358" text-anchor="middle">Shared trust modules on every page</text>
+            <rect class="dbox acc" x="20" y="410" width="180" height="54" rx="12"/>
+            <text class="dt" x="110" y="442" text-anchor="middle">Verify insurance</text>
+            <rect class="dbox acc" x="230" y="410" width="180" height="54" rx="12"/>
+            <text class="dt" x="320" y="442" text-anchor="middle">Contact admissions</text>
+            <rect class="dbox acc" x="440" y="410" width="180" height="54" rx="12"/>
+            <text class="dt" x="530" y="442" text-anchor="middle">Call now</text>
+            <text class="ds" x="20" y="500">Every route ends in the same three actions. Call now also sits in every header.</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenge 01 -->
+    <section class="block" aria-labelledby="c1">
+      <div class="sec-head">
+        <p class="label"><b>01</b> / Information hierarchy</p>
+        <h2 id="c1">Making complex healthcare content easier to navigate.</h2>
+      </div>
+      <div class="pr" style="margin-top:clamp(28px,4vw,40px)">
+        <p class="label">Problem</p>
+        <p>Treatment pages carry levels of care, therapies, medication, support groups, and aftercare. Shown all at once, it reads like a wall of clinical detail to someone who is already overwhelmed.</p>
+      </div>
+
+      <div class="rows">
+        <div class="row">
+          <div class="stage drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap">
+                <img src="haven/img/op-structure.jpg" alt="Outpatient program page: breadcrumb, overview, and collapsed accordions">
+                <span class="pin" style="left:30%; top:4%">1</span>
+                <span class="pin" style="left:54%; top:41%">2</span>
+                <span class="pin" style="left:62%; top:89%">3</span>
+              </div>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label">Decision</p>
+            <h3>Overview first, clinical detail on demand.</h3>
+            <ol class="notes">
+              <li><span class="n">1</span><div><strong>Always know where you are</strong><span class="t">Breadcrumbs keep context on deep pages.</span></div></li>
+              <li><span class="n">2</span><div><strong>Overview before detail</strong><span class="t">What to expect, in plain language, comes first.</span></div></li>
+              <li><span class="n">3</span><div><strong>Detail on demand</strong><span class="t">Therapy, support groups, and MAT open only when wanted.</span></div></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="row rev">
+          <div class="row-text">
+            <p class="label">Decision</p>
+            <h3>Group, don't list.</h3>
+            <ol class="notes">
+              <li><span class="n">4</span><div><strong>Levels of care at a glance</strong><span class="t">Program types as short rows, ordered by intensity.</span></div></li>
+              <li><span class="n">5</span><div><strong>Grouped by approach</strong><span class="t">The most common therapies get cards. The rest split into evidence-based and holistic.</span></div></li>
+            </ol>
+          </div>
+          <div class="stage stack drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/op-levels.jpg" alt="Types of outpatient programs listed as rows from standard outpatient to continuing care"><span class="pin" style="left:93%; top:36%">4</span></div>
+            </div>
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/mh-therapies.jpg" alt="Proven therapies as cards, followed by evidence-based and holistic therapy lists"><span class="pin" style="left:9%; top:72%">5</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage stack drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/rc-blog.jpg" alt="Article category page with a topic list, search, and article cards"><span class="pin" style="left:20%; top:34%">6</span></div>
+            </div>
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/op-related.jpg" alt="Related news and articles at the end of a program page"><span class="pin" style="left:76%; top:12%">7</span></div>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label">Decision</p>
+            <h3>Connect treatment and learning.</h3>
+            <ol class="notes">
+              <li><span class="n">6</span><div><strong>Browse by topic</strong><span class="t">A topic list and search organize educational content.</span></div></li>
+              <li><span class="n">7</span><div><strong>Related education</strong><span class="t">Program pages end with articles to keep learning.</span></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="pr result">
+        <p class="label">Result</p>
+        <p>Dense clinical content became easier to scan, with deeper information available when needed.</p>
+      </div>
+    </section>
+
+    <!-- Challenge 02 -->
+    <section class="block" aria-labelledby="c2">
+      <div class="sec-head">
+        <p class="label"><b>02</b> / Paths to care</p>
+        <h2 id="c2">Creating clear paths to care.</h2>
+      </div>
+      <div class="pr" style="margin-top:clamp(28px,4vw,40px)">
+        <p class="label">Problem</p>
+        <p>People arrive at very different moments. Some are researching for a family member. Some need help today. One "Contact us" button serves neither.</p>
+      </div>
+      <div class="pr" style="margin-top:20px">
+        <p class="label">Decision</p>
+        <p>Every page offers a next step at three levels of readiness, so nobody has to jump from reading straight to a phone call.</p>
+      </div>
+
+      <div class="diagram drift" style="margin-top:clamp(40px,5vw,56px)">
+        <svg viewBox="0 0 760 210" role="img" aria-label="Every page offers three next steps: keep learning, check coverage, talk to someone">
+          <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+          <g class="dline">
+            <path d="M380 48V64M130 64H630"/>
+            <path d="M130 64V82" marker-end="url(#a2)"/><path d="M380 64V82" marker-end="url(#a2)"/><path d="M630 64V82" marker-end="url(#a2)"/>
+            <path d="M25 180H733" marker-end="url(#a2)"/>
+          </g>
+          <rect class="dbox" x="300" y="4" width="160" height="44" rx="12"/>
+          <text class="dt" x="380" y="31" text-anchor="middle">Any page</text>
+          <rect class="dbox" x="25" y="84" width="210" height="64" rx="12"/>
+          <text class="dt" x="130" y="110" text-anchor="middle">Keep learning</text>
+          <text class="ds" x="130" y="128" text-anchor="middle">Programs, FAQs, articles</text>
+          <rect class="dbox" x="275" y="84" width="210" height="64" rx="12"/>
+          <text class="dt" x="380" y="110" text-anchor="middle">Check coverage</text>
+          <text class="ds" x="380" y="128" text-anchor="middle">Insurance and verification</text>
+          <rect class="dbox acc" x="525" y="84" width="210" height="64" rx="12"/>
+          <text class="dt" x="630" y="110" text-anchor="middle">Talk to someone</text>
+          <text class="ds" x="630" y="128" text-anchor="middle">Call, contact, admissions</text>
+          <text class="dm" x="25" y="202">LESS COMMITMENT</text>
+          <text class="dm" x="735" y="202" text-anchor="end">MORE COMMITMENT</text>
+        </svg>
+      </div>
+
+      <div class="tri">
+        <figure class="drift"><div class="crop"><img src="haven/img/mh-faq.jpg" alt="Frequently asked questions accordion on the mental health page"></div><figcaption><span class="k">Answers before commitment</span><span class="tag">Keep learning</span></figcaption></figure>
+        <figure class="drift"><div class="crop"><img src="haven/img/ins-detox.jpg" alt="Insurance logos with a Check Your Insurance button"></div><figcaption><span class="k">Answer the cost question early</span><span class="tag">Check coverage</span></figcaption></figure>
+        <figure class="drift"><div class="crop"><img src="haven/img/mh-questions.jpg" alt="Have Questions band with 24/7 support, no commitment, and 100% private cards"></div><figcaption><span class="k">Reassure before asking</span><span class="tag">Talk to someone</span></figcaption></figure>
+      </div>
+
+      <div class="rows" style="margin-top:clamp(64px,8vw,104px)">
+        <div class="row">
+          <div class="stage stack drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/op-journey.jpg" alt="Start Your Recovery Journey: three admission steps beside an insurance verification form"><span class="pin" style="left:5%; top:46%">1</span></div>
+            </div>
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="haven/img/op-questions.jpg" alt="Questions About Treatment band with Call Now and Verify Your Insurance buttons"><span class="pin" style="left:32%; top:76%">2</span></div>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label">Admissions</p>
+            <h3>Make reaching out feel safe.</h3>
+            <ol class="notes">
+              <li><span class="n">1</span><div><strong>What happens after you reach out</strong><span class="t">Assessment, insurance review, and arrival sit beside the form.</span></div></li>
+              <li><span class="n">2</span><div><strong>Call or check coverage</strong><span class="t">Two equal choices, so the softer step is never hidden.</span></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consistency -->
+    <section class="small" aria-labelledby="sp">
+      <div class="sec-head sm">
+        <p class="label">Consistency</p>
+        <h2 id="sp">Shared patterns, connected experiences.</h2>
+        <p>I created and reused patterns for recurring content: insurance, reviews, FAQs, and contact sections. Different pages feel like one experience, and developers could implement each pattern consistently instead of rebuilding it page by page.</p>
+      </div>
+      <div class="patterns">
+        <div class="pattern-row">
+          <p class="label">Insurance · same pattern, other pages</p>
+          <div class="pair">
+            <figure class="drift"><div class="crop"><img src="haven/img/ins-location.jpg" alt="Insurance strip on a facility location page"></div><figcaption><span class="tag">Florida location page</span></figcaption></figure>
+            <figure class="drift"><div class="crop"><img src="haven/img/ins-rc.jpg" alt="Insurance strip on the Recovering Champions home page"></div><figcaption><span class="tag">Recovering Champions redesign</span></figcaption></figure>
+          </div>
+        </div>
+        <div class="pattern-row">
+          <p class="label">Contact band · same pattern, other pages</p>
+          <div class="pair">
+            <figure class="drift"><div class="crop"><img src="haven/img/q-services.jpg" alt="Have Questions band on the services page"></div><figcaption><span class="tag">Services page</span></figcaption></figure>
+            <figure class="drift"><div class="crop"><img src="haven/img/q-locations.jpg" alt="Have Questions band on the locations page"></div><figcaption><span class="tag">Locations page</span></figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Responsive -->
+    <section class="small" aria-labelledby="rs">
+      <div class="sec-head sm" style="margin-bottom:clamp(32px,4vw,48px)">
+        <p class="label">Responsive</p>
+        <h2 id="rs">The same priorities at every size.</h2>
+        <p>The Careers page keeps the same hierarchy on desktop and mobile. Both screens below scroll.</p>
+      </div>
+      <div class="stage drift">
+        <div class="resp">
+          <div class="browser desk"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="viewport" id="resp-desk" tabindex="0" aria-label="Careers page, desktop, scrollable"><img src="haven/img/careers-desktop.jpg" alt="Careers page on desktop with values, stats, and job listings"></div>
+          </div>
+          <div class="phone"><div class="viewport" id="resp-mob" tabindex="0" aria-label="Careers page, mobile, scrollable"><img src="haven/img/careers-mobile.jpg" alt="Careers page on mobile with stacked cards"></div></div>
+        </div>
+      </div>
+      <ul class="dash-notes">
+        <li>Multi-column content → compact mobile layout</li>
+        <li>Job rows → stacked cards</li>
+        <li>Apply stays on every listing</li>
+      </ul>
+      <script>
+        (function () {
+          function start(id, frac) {
+            var v = document.getElementById(id); if (!v) return;
+            var img = v.querySelector('img');
+            function go() { v.scrollTop = img.offsetHeight * frac; }
+            if (img.complete) go(); img.addEventListener('load', go); window.addEventListener('load', go);
+          }
+          start('resp-desk', 0.30); start('resp-mob', 0.36);
+        })();
+      </script>
+    </section>
+
+    <!-- Internal tools -->
+    <section class="small" aria-labelledby="it">
+      <div class="sec-head sm" style="margin-bottom:clamp(36px,5vw,56px)">
+        <p class="label">Internal tools</p>
+        <h2 id="it">Designing an internal campaign workspace.</h2>
+        <p>I also designed an internal campaign workspace that brought tasks, deadlines, projects, activity, and team information into one place. Across iterations, I refined the hierarchy and added visual context to campaign metrics.</p>
+      </div>
+      <div class="iter">
+        <figure><div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/dash-home-a.jpg" alt="Workspace home, first iteration"></div><figcaption><span class="tag">Home · first iteration</span></figcaption></figure>
+        <span class="arrow" aria-hidden="true">→</span>
+        <figure><div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/dash-home-b.jpg" alt="Workspace home, refined iteration"></div><figcaption><span class="tag">Home · refined</span></figcaption></figure>
+      </div>
+      <div class="campaign">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="haven/img/dash-campaign.jpg" alt="Campaign management dashboard with task, campaign, and analytics metrics"></div>
+        <div class="inset date"><img src="haven/img/date-picker.jpg" alt="Date range picker with presets"></div>
+        <div class="inset modal"><img src="haven/img/new-project.jpg" alt="New project form"></div>
+      </div>
+      <ol class="dash-notes">
+        <li>Today's priorities first</li>
+        <li>Projects and team in one rail</li>
+        <li>Every metric shows its trend</li>
+        <li>Presets for common date ranges</li>
+      </ol>
+    </section>
+
+    <!-- Outcome -->
+    <section class="block" aria-labelledby="out">
+      <div class="outcome">
+        <div style="display:grid; gap:24px; align-content:start">
+          <p class="label">Outcome</p>
+          <div class="sec-head"><h2 id="out">What I delivered</h2></div>
+          <ul class="delivered">
+            <li>Responsive healthcare pages</li>
+            <li>Treatment and program page structures</li>
+            <li>Resource and editorial experiences</li>
+            <li>Recurring UI patterns</li>
+            <li>Admissions and insurance verification</li>
+            <li>Internal dashboard designs</li>
+            <li>Figma designs handed off to developers</li>
+          </ul>
+        </div>
+        <div class="reflect">
+          <p class="quote">Clarity isn't one page's job. It comes from how the whole experience fits together.</p>
+          <p>Working in healthcare taught me to design past the individual screen. Hierarchy, navigation, consistency, and the next action decide whether someone finds what they came for and feels ready to reach out.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <a class="next" href="turnbnb.html"><span class="label">Next project</span><strong>TurnBnB →</strong></a>
+    </footer>
+
+    <section class="pf-contact" id="contact" aria-labelledby="contact-h">
+      <p class="label">Contact</p>
+      <h2 id="contact-h">Let's talk about your product.</h2>
+      <p class="pf-contact-sub">I'm looking for full-time Product Designer roles in the U.S. The fastest way to reach me is email.</p>
+      <div class="pf-links">
+        <div class="pf-email">
+          <a href="mailto:torosyanarmanush@gmail.com" class="pf-email-addr">torosyanarmanush@gmail.com</a>
+          <button type="button" class="pf-copy" data-copy="torosyanarmanush@gmail.com" id="copy-email">Copy</button>
+        </div>
+        <div class="pf-row">
+          <a href="https://linkedin.com/in/armanush-torosyan" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume (PDF) ↗</a>
+        </div>
+      </div>
+    </section>
+    <footer class="pf-foot">
+      <span>© 2026 Armanush Torosyan</span>
+      <span>Product Designer · South Florida, USA</span>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll('.pf-copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function done(msg) { b.textContent = msg; setTimeout(function () { b.textContent = 'Copy'; }, 1800); }
+      try {
+        navigator.clipboard.writeText(t).then(function () { done('Copied'); }, function () { sel(); });
+      } catch (e) { sel(); }
+      function sel() {
+        var a = b.parentNode.querySelector('.pf-email-addr');
+        var r = document.createRange(); r.selectNodeContents(a);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

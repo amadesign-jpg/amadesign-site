@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+</style>
+<title>Prince Auto Repair Case Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same portfolio system as TurnBnB (12-col editorial page, quiet stages, mono labels); Prince red is the project accent as the project accent */
+:root {
+  --bg: #F6F5F8;
+  --surface: #FFFFFF;
+  --stage: #EEEAEA;
+  --ink: #18161D;
+  --muted: #605B6B;
+  --line: #DDD9E4;
+  --accent: #A82A33;
+  --accent-soft: #F7E9EA;
+  --on-accent: #FFFFFF;
+  --screen: #FFFFFF;
+  --shadow: rgba(48, 24, 28, 0.22);
+  --f-display: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121116; --surface: #1B1A21; --stage: #221D1F; --ink: #F1EFF5; --muted: #A49FAF;
+    --line: #2F2C38; --accent: #EE9AA0; --accent-soft: #352227; --on-accent: #2A1013; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121116; --surface: #1B1A21; --stage: #221D1F; --ink: #F1EFF5; --muted: #A49FAF;
+  --line: #2F2C38; --accent: #EE9AA0; --accent-soft: #352227; --on-accent: #2A1013; --screen: #FFFFFF; --shadow: rgba(0,0,0,0.55);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, .viewport:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+h1, h2, h3, p, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
+p { max-width: 62ch; text-wrap: pretty; }
+img { display: block; max-width: 100%; height: auto; }
+
+.wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.in { padding-inline: clamp(0px, 3vw, 40px); }
+
+.label {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
+}
+.label b { color: var(--accent); font-weight: 500; }
+
+/* Nav */
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+.nav .name { font-weight: 600; text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: clamp(16px, 3vw, 36px); flex-wrap: wrap; }
+.nav ul a, .back { text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; }
+.nav ul a:hover, .back:hover { color: var(--ink); }
+.back { display: inline-flex; gap: 8px; align-items: center; }
+
+/* Hero */
+.hero { padding-block: clamp(32px, 6vw, 72px) 0; }
+.hero h1 {
+  font-size: clamp(52px, 9vw, 120px); font-weight: 600; line-height: 0.95;
+  letter-spacing: -0.05em; margin-top: 28px; max-width: 12ch;
+}
+.hero h1 span { color: var(--accent); }
+.hero-text { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(24px, 5vw, 80px); margin-top: clamp(28px, 4vw, 48px); align-items: end; }
+.hero .sub { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500; max-width: 26ch; }
+.hero .contrib { color: var(--muted); font-size: 18px; max-width: 46ch; }
+.meta { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: clamp(36px, 5vw, 56px) 0 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.meta dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.meta dd { margin: 4px 0 0; font-weight: 500; }
+
+.hero-stage {
+  margin-top: clamp(40px, 6vw, 72px); background: var(--stage); border-radius: 28px;
+  padding: clamp(28px, 5vw, 64px) clamp(16px, 3vw, 48px) 0; overflow: hidden;
+}
+.hero-row { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: clamp(14px, 2vw, 28px); align-items: end; }
+.hero-row .browser { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-row > * { animation: rise 0.9s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-row > *:nth-child(1) { animation-delay: .08s; }
+  .hero-row > *:nth-child(3) { animation-delay: .16s; }
+}
+@keyframes rise { from { transform: translateY(40px); } to { transform: none; } }
+
+/* Browser frame */
+.browser {
+  background: var(--screen); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -34px var(--shadow);
+  min-width: 0;
+}
+.browser .bar { height: 26px; display: flex; align-items: center; gap: 6px; padding-inline: 12px; background: #F1F1F3; border-bottom: 1px solid #E3E3E8; }
+.browser .bar i { width: 8px; height: 8px; border-radius: 50%; background: #CFCFD6; }
+.browser .shot-wrap { position: relative; }
+.viewport { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: auto; }
+.viewport::-webkit-scrollbar { display: none; }
+
+/* Annotation pins */
+.pin {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  font: 600 12.5px/26px var(--f-mono); text-align: center;
+  box-shadow: 0 0 0 4px rgba(255,255,255,.85), 0 4px 12px rgba(0,0,0,.18);
+}
+.notes { display: grid; gap: 14px; }
+.notes li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: baseline; }
+.notes li .n { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 600 12.5px/26px var(--f-mono); text-align: center; transform: translateY(2px); }
+.notes li strong { font-weight: 600; display: block; letter-spacing: -0.01em; }
+.notes li span.t { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+/* Sections */
+section.block { padding-block: clamp(96px, 13vw, 176px) 0; }
+section.small { padding-block: clamp(80px, 10vw, 136px) 0; }
+.sec-head { display: grid; gap: 20px; max-width: 900px; }
+.sec-head h2 { font-size: clamp(34px, 4.8vw, 60px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; }
+.sec-head.sm h2 { font-size: clamp(28px, 3.4vw, 44px); }
+.sec-head p { color: var(--muted); font-size: 18px; }
+.lead-line { color: var(--ink) !important; font-weight: 500; }
+
+/* Overview */
+.overview { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+.overview .copy { display: grid; gap: 22px; }
+.overview .copy p { color: var(--muted); }
+.quote {
+  font-family: var(--f-display); font-size: clamp(24px, 2.8vw, 36px); line-height: 1.2;
+  letter-spacing: -0.025em; font-weight: 500; color: var(--ink) !important; max-width: 22ch;
+  padding-left: 22px; border-left: 2px solid var(--accent);
+}
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 36px); overflow-x: auto; }
+.diagram svg { display: block; width: 100%; height: auto; min-width: 560px; }
+.dbox { fill: var(--surface); stroke: var(--line); stroke-width: 1.25; }
+.dbox.acc { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.75; }
+.dband { fill: var(--bg); stroke: var(--line); stroke-width: 1.25; }
+.dline { fill: none; stroke: var(--muted); stroke-width: 1.25; opacity: .7; }
+.dhead { fill: var(--muted); }
+.dt { fill: var(--ink); font-family: var(--f-body); font-size: 14px; font-weight: 600; }
+.ds { fill: var(--muted); font-family: var(--f-body); font-size: 12px; }
+.dm { fill: var(--muted); font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; }
+
+/* Problem / result */
+.pr { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px 24px; align-items: baseline; padding-top: 22px; border-top: 1px solid var(--line); }
+.pr p { color: var(--muted); }
+.pr.result { margin-top: clamp(56px, 7vw, 88px); }
+.pr.result p { color: var(--ink); font-weight: 500; }
+
+/* Editorial rows */
+.rows { display: grid; gap: clamp(72px, 9vw, 120px); margin-top: clamp(56px, 7vw, 96px); }
+.row { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.row.rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); }
+.row.rev .row-text { order: -1; }
+.row-text { display: grid; gap: 16px; align-content: center; }
+.row-text h3 { font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -0.025em; line-height: 1.15; font-weight: 600; }
+.row-text > p { color: var(--muted); max-width: 40ch; }
+.stage { background: var(--stage); border-radius: 28px; padding: clamp(20px, 4vw, 48px); }
+.stack { display: grid; gap: 18px; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes drift { from { transform: translateY(28px); } to { transform: none; } }
+
+/* Readiness columns */
+.tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 32px); margin-top: clamp(28px, 4vw, 40px); }
+.tri figure { display: grid; gap: 14px; align-content: start; }
+figcaption { display: grid; gap: 4px; }
+figcaption .k { font-weight: 600; font-size: 15.5px; display: flex; gap: 10px; align-items: center; }
+figcaption .k::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+figcaption .tag { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Pattern strip */
+.patterns { display: grid; gap: clamp(36px, 5vw, 56px); margin-top: clamp(40px, 5vw, 56px); }
+.pattern-row { display: grid; gap: 14px; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+.crop { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--screen); }
+.pair figure { display: grid; gap: 10px; }
+
+/* Responsive showcase */
+.resp { display: grid; grid-template-columns: minmax(0, 1fr) 250px; align-items: end; }
+.resp .desk { margin-right: -70px; }
+.resp .desk .viewport { height: clamp(380px, 42vw, 540px); }
+.resp .phone { position: relative; z-index: 1; max-width: 250px; }
+.phone {
+  width: 100%; max-width: 280px; aspect-ratio: 9 / 19.5; border-radius: 34px; overflow: hidden;
+  background: var(--screen); border: 1px solid var(--line);
+  box-shadow: 0 1px 2px var(--shadow), 0 30px 60px -32px var(--shadow);
+}
+.phone .viewport { height: 100%; }
+.phone img { width: 100%; }
+.resp-side { display: grid; gap: 28px; justify-items: start; }
+
+/* Dashboard */
+.iter { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(12px, 2vw, 24px); align-items: center; }
+.iter .arrow { font-family: var(--f-mono); color: var(--muted); font-size: 20px; }
+.iter figure { display: grid; gap: 12px; }
+.campaign { position: relative; margin-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(60px, 9vw, 120px); padding-right: clamp(0px, 8vw, 120px); }
+.inset { position: absolute; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--screen); box-shadow: 0 1px 2px var(--shadow), 0 24px 50px -24px var(--shadow); }
+.inset.date { width: 38%; right: 0; bottom: clamp(20px, 3vw, 40px); }
+.inset.modal { width: 20%; right: 40%; bottom: 0; }
+.dash-notes { display: flex; gap: 12px 32px; flex-wrap: wrap; margin-top: 22px; }
+.dash-notes li { display: flex; gap: 10px; align-items: center; font-size: 15.5px; font-weight: 600; }
+.dash-notes li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; transform: translateY(-2px); }
+
+/* Outcome */
+.outcome { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); }
+.delivered { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.delivered li { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.reflect { display: grid; gap: 22px; align-content: start; }
+.reflect .quote { max-width: 18ch; font-size: clamp(28px, 3.4vw, 42px); }
+.reflect p { color: var(--muted); }
+
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: clamp(48px, 6vw, 72px); margin-top: clamp(80px, 10vw, 140px); border-top: 1px solid var(--line); }
+.next { text-decoration: none; display: grid; gap: 4px; text-align: right; }
+.next strong { font-size: clamp(26px, 3vw, 40px); letter-spacing: -0.03em; font-weight: 600; transition: color .2s; }
+.next:hover strong { color: var(--accent); }
+
+@media (max-width: 960px) {
+  .hero-text, .overview, .row, .row.rev, .outcome, .resp { grid-template-columns: minmax(0, 1fr); }
+  .row.rev .row-text { order: 0; }
+  .meta { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 20px; }
+  .resp { gap: 24px; justify-items: center; }
+  .resp .desk { margin-right: 0; width: 100%; }
+  .resp .desk .viewport { height: 360px; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-row { grid-template-columns: minmax(0, 1fr); }
+  .hero-row > :not(.lead) { display: none; }
+  .tri, .pair, .delivered { grid-template-columns: minmax(0, 1fr); }
+  .pr { grid-template-columns: minmax(0, 1fr); }
+  .iter { grid-template-columns: minmax(0, 1fr); }
+  .iter .arrow { transform: rotate(90deg); justify-self: center; }
+  .campaign { padding: 0; }
+  .inset { position: static; width: 70% !important; margin-top: 14px; }
+  .stage, .hero-stage { border-radius: 20px; }
+  .pin { width: 22px; height: 22px; font-size: 11px; line-height: 22px; }
+  .next { text-align: left; }
+}
+
+/* Prince-specific */
+.p-hero { position: relative; padding-bottom: 0; }
+.p-hero .p-dash { width: 72%; border-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.p-hero .p-site { position: absolute; right: clamp(16px, 3vw, 48px); bottom: clamp(24px, 4vw, 56px); width: 40%; }
+@media (prefers-reduced-motion: no-preference) { .p-hero .p-site { animation: rise 1s .2s cubic-bezier(.2,.7,.2,1) both; } }
+.inputs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); margin-top: clamp(36px, 5vw, 56px); }
+.inputs li { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(20px, 2.4vw, 28px); display: grid; gap: 10px; align-content: start; }
+.inputs h3 { font-size: 19px; letter-spacing: -0.015em; font-weight: 600; }
+.inputs p { color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+.insight { margin-top: clamp(32px, 4vw, 48px); display: grid; gap: 16px; padding-top: 28px; border-top: 1px solid var(--line); }
+.insight .quote { max-width: 34ch; }
+.flow { display: flex; flex-wrap: wrap; gap: 10px 0; margin-top: clamp(32px, 4vw, 48px); counter-reset: f; }
+.flow li { display: flex; white-space: nowrap; align-items: center; font-size: 15px; font-weight: 500; }
+.flow li:not(:last-child)::after { content: "→"; color: var(--muted); margin-inline: 12px; font-family: var(--f-mono); }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); margin-top: clamp(32px, 4vw, 44px); padding-top: 24px; border-top: 1px solid var(--line); }
+.two > div { display: grid; gap: 10px; align-content: start; }
+.two p:not(.label) { color: var(--muted); font-size: 16px; }
+.journey { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 4vw, 40px); }
+.journey li { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 14.5px; font-weight: 500; }
+.journey li.end, .flow li.end { color: var(--accent); }
+.journey li.end { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.flow li.ai { color: var(--accent); }
+.flow li.end { font-weight: 600; color: var(--ink); }
+.live-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: start; margin-top: clamp(36px, 5vw, 56px); }
+.live-scroll { height: clamp(420px, 48vw, 620px); }
+.live-side { display: grid; gap: 28px; }
+.live-side figure { display: grid; gap: 12px; }
+.label.live::after { content: "LIVE"; margin-left: 12px; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 10.5px; letter-spacing: .08em; }
+.pay-stage { position: relative; padding-bottom: clamp(160px, 20vw, 270px); }
+.inset.pay { width: 34%; right: clamp(20px, 4vw, 48px); bottom: clamp(12px, 1.5vw, 20px); }
+.inset.pay { position: absolute; }
+.note-line { margin-top: clamp(40px, 5vw, 56px); font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.split > div { display: grid; gap: 12px; align-content: start; }
+.delivered.one { grid-template-columns: minmax(0, 1fr); }
+.row-text .sec-head h2 { font-size: clamp(30px, 3.8vw, 48px); }
+@media (max-width: 960px) {
+  .live-grid, .two { grid-template-columns: minmax(0, 1fr); }
+  .p-hero .p-dash { width: 100%; }
+  .p-hero .p-site { position: static; width: 80%; margin: -60px 0 24px auto; }
+}
+@media (max-width: 720px) {
+  .inputs, .split { grid-template-columns: minmax(0, 1fr); }
+  .inset.pay { position: relative; right: auto; bottom: auto; width: 70%; margin: 14px auto 0; }
+  .pay-stage { padding-bottom: clamp(20px, 4vw, 48px); }
+  .flow li { white-space: normal; }
+}
+
+/* Shared portfolio chrome */
+.nav ul a[aria-current="page"] { color: var(--ink); }
+.pf-contact { margin-top: clamp(96px, 12vw, 160px); padding: clamp(36px, 6vw, 72px); border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 18px; }
+.pf-contact h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; max-width: 16ch; }
+.pf-contact-sub { color: var(--muted); max-width: 48ch; }
+.pf-links { display: grid; gap: 16px; margin-top: 12px; }
+.pf-email { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pf-email-addr { font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; letter-spacing: -0.02em; text-decoration: none; border-bottom: 2px solid var(--accent); overflow-wrap: anywhere; }
+.pf-copy { font: 500 13px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 10px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.pf-copy:hover { border-color: var(--ink); }
+.pf-copy:focus-visible, .pf-row a:focus-visible, .pf-email-addr:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pf-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.pf-row a { font-weight: 500; text-decoration: none; color: var(--muted); padding-block: 6px; }
+.pf-row a:hover { color: var(--ink); }
+.pf-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
+.foot + .pf-contact { margin-top: 0; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="in">
+
+    <header class="nav">
+      <a class="name" href="index.html">Armanush Torosyan</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <h1>Prince Auto Repair<span>.</span></h1>
+      <div class="hero-text">
+        <p class="sub">Designing a connected experience from customer booking to shop operations.</p>
+        <p class="contrib">What began as a website redesign grew into a broader product once I learned how the shop actually runs: a live customer website and an interactive shop-management prototype.</p>
+      </div>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>UX/UI Designer</dd></div>
+        <div><dt>Scope</dt><dd>Product Discovery · UX/UI Design · Interactive Prototyping</dd></div>
+        <div><dt>Platforms</dt><dd>Responsive Web · Internal Web App</dd></div>
+        <div><dt>Tools</dt><dd>Figma · ChatGPT · Claude · Lovable</dd></div>
+        <div><dt>Status</dt><dd>Website Live · Management Platform Prototype</dd></div>
+      </dl>
+    </section>
+
+    <div class="hero-stage p-hero">
+      <div class="browser p-dash"><div class="bar"><i></i><i></i><i></i></div><img src="prince/img/dashboard.jpg" alt="Shop-management dashboard with open work orders, pending estimates, clients, and recent activity"></div>
+      <div class="browser p-site"><div class="bar"><i></i><i></i><i></i></div><img src="prince/img/site-appointment.jpg" alt="Live Prince Auto Repair website, Request an Appointment page"></div>
+    </div>
+
+    <!-- 01 Brief -->
+    <section class="block" aria-labelledby="s1">
+      <div class="row">
+        <div class="row-text">
+          <p class="label"><b>01</b> / The brief</p>
+          <div class="sec-head"><h2 id="s1">The brief was a website. The problem was bigger.</h2></div>
+          <p>Prince Auto Repair asked for a redesign of its customer-facing website. Before designing anything, I wanted to understand how the business actually worked: how a car moves through the shop, and what the team tracks along the way.</p>
+        </div>
+        <figure class="drift" style="display:grid; gap:12px">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="prince/img/old-site.jpg" alt="The previous Prince Auto Repair website"></div>
+          <figcaption><span class="tag">Starting point · the previous website</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 02 Discovery -->
+    <section class="block" aria-labelledby="s2">
+      <div class="sec-head">
+        <p class="label"><b>02</b> / Discovery</p>
+        <h2 id="s2">Understanding the business before designing the interface.</h2>
+      </div>
+      <ol class="inputs">
+        <li class="drift"><span class="label">Input 1</span><h3>Client conversations</h3><p>Several detailed conversations about how the shop runs, its current process, and the features the client needed and wanted.</p></li>
+        <li class="drift"><span class="label">Input 2</span><h3>Existing system &amp; data review</h3><p>I went through the platform the shop already used, its features, and its business data to map the real workflow.</p></li>
+        <li class="drift"><span class="label">Input 3</span><h3>Website competitive analysis</h3><p>I reviewed other auto repair websites for how they present services, build trust, and handle appointments.</p></li>
+      </ol>
+      <div class="insight drift">
+        <p class="label">What I learned</p>
+        <p class="quote">The website could improve how customers entered the business, but it wouldn't solve the operational needs happening inside the shop.</p>
+      </div>
+    </section>
+
+    <!-- 03 Opportunity -->
+    <section class="block" aria-labelledby="s3">
+      <div class="sec-head">
+        <p class="label"><b>03</b> / Product opportunity</p>
+        <h2 id="s3">Connecting the customer journey with shop operations.</h2>
+        <p>The project expanded from one website into two connected experiences.</p>
+      </div>
+      <div class="diagram drift" style="margin-top:clamp(36px,5vw,56px)">
+        <svg viewBox="0 0 760 330" role="img" aria-label="Customer experience flows from website to Calendly; shop experience flows from client and vehicle through estimate or work order to invoice and payment">
+          <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+          <text class="dm" x="0" y="14">CUSTOMER EXPERIENCE · LIVE WEBSITE</text>
+          <g class="dline">
+            <path d="M150 54H182" marker-end="url(#a1)"/><path d="M332 54H364" marker-end="url(#a1)"/><path d="M534 54H566" marker-end="url(#a1)"/>
+            <path d="M664 82V120H70V192" marker-end="url(#a1)" stroke-dasharray="4 4"/>
+            <path d="M140 220H150V188H178" marker-end="url(#a1)"/><path d="M140 220H150V252H178" marker-end="url(#a1)"/>
+            <path d="M338 188H352V220H384" marker-end="url(#a1)"/><path d="M338 252H352V220"/>
+            <path d="M524 220H560" marker-end="url(#a1)"/>
+          </g>
+          <rect class="dbox" x="0" y="26" width="150" height="56" rx="12"/><text class="dt" x="75" y="59" text-anchor="middle">Website</text>
+          <rect class="dbox" x="184" y="26" width="148" height="56" rx="12"/><text class="dt" x="258" y="59" text-anchor="middle">Services</text>
+          <rect class="dbox" x="366" y="26" width="168" height="56" rx="12"/><text class="dt" x="450" y="59" text-anchor="middle">Request appointment</text>
+          <rect class="dbox acc" x="568" y="26" width="192" height="56" rx="12"/><text class="dt" x="664" y="59" text-anchor="middle">Calendly booking</text>
+          <text class="ds" x="380" y="112" text-anchor="middle">the same customer arrives at the shop</text>
+          <rect class="dbox" x="0" y="194" width="140" height="56" rx="12"/><text class="dt" x="70" y="218" text-anchor="middle">Client</text><text class="ds" x="70" y="236" text-anchor="middle">+ Vehicle</text>
+          <rect class="dbox" x="180" y="164" width="158" height="48" rx="12"/><text class="dt" x="259" y="193" text-anchor="middle">Estimate</text>
+          <rect class="dbox" x="180" y="228" width="158" height="48" rx="12"/><text class="dt" x="259" y="257" text-anchor="middle">Work order</text>
+          <text class="ds" x="259" y="295" text-anchor="middle">either path</text>
+          <rect class="dbox" x="386" y="194" width="138" height="56" rx="12"/><text class="dt" x="455" y="227" text-anchor="middle">Invoice</text>
+          <rect class="dbox acc" x="562" y="194" width="198" height="56" rx="12"/><text class="dt" x="661" y="218" text-anchor="middle">Payment</text><text class="ds" x="661" y="236" text-anchor="middle">full or partial</text>
+          <text class="dm" x="0" y="326">SHOP EXPERIENCE · INTERACTIVE PROTOTYPE</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 04 Workflow -->
+    <section class="block" aria-labelledby="s4">
+      <div class="sec-head">
+        <p class="label"><b>04</b> / Designing the shop workflow</p>
+        <h2 id="s4">Turning shop operations into one connected workflow.</h2>
+        <p>Connected records keep customer, vehicle, and job information together as work moves through the shop.</p>
+      </div>
+
+      <div class="rows">
+        <div class="row">
+          <div class="stage stack drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="prince/img/client.jpg" alt="Client profile with vehicle details, VIN, mileage, and tabs for history, work orders, estimates, and invoices">
+                <span class="pin" style="left:44%; top:28%">1</span><span class="pin" style="left:59%; top:44%">2</span><span class="pin" style="left:32%; top:70%">3</span>
+              </div>
+            </div>
+          </div>
+          <div class="row-text">
+            <p class="label">Step 1 · Client + vehicle</p>
+            <h3>The car is part of the customer record.</h3>
+            <ol class="notes">
+              <li><span class="n">1</span><div><strong>One profile, full history</strong><span class="t">Service history, work orders, estimates, invoices, and mileage sit in tabs on the same record.</span></div></li>
+              <li><span class="n">2</span><div><strong>Findable by VIN</strong><span class="t">VIN, engine, and tire size are captured once, and global search finds a client by name, invoice, or VIN.</span></div></li>
+              <li><span class="n">3</span><div><strong>Mileage logged per visit</strong><span class="t">Each update is kept, so the history reflects real use.</span></div></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="row rev">
+          <div class="row-text">
+            <p class="label">Step 2 · Estimate or work order</p>
+            <h3>Two ways in, one way to billing.</h3>
+            <ol class="notes">
+              <li><span class="n">4</span><div><strong>Track the job, not just the price</strong><span class="t">Work orders carry a checklist and a status like "Waiting for Parts," so the team sees where each car stands.</span></div></li>
+              <li><span class="n">5</span><div><strong>One step to an invoice</strong><span class="t">An approved estimate or a finished work order becomes an invoice with its line items carried over.</span></div></li>
+            </ol>
+          </div>
+          <div class="stage stack drift">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="prince/img/workorder.jpg" alt="Work order with status options, task checklist, and a Create Invoice button"><span class="pin" style="left:44%; top:56%">4</span><span class="pin" style="left:70%; top:12%">5</span></div>
+            </div>
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="prince/img/estimate.jpg" alt="Pending estimate with line items and a Convert to Invoice action"><span class="pin" style="left:90%; top:12%">5</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage drift pay-stage">
+            <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+              <div class="shot-wrap"><img src="prince/img/invoice.jpg" alt="Invoice with customer, vehicle, linked work order, and a payment summary panel"><span class="pin" style="left:30%; top:66%">6</span><span class="pin" style="left:83%; top:56%">7</span></div>
+            </div>
+            <div class="inset pay"><img src="prince/img/payment.jpg" alt="Add payment form showing invoice total, remaining balance, and maximum amount"><span class="pin" style="left:50%; top:24%">8</span></div>
+          </div>
+          <div class="row-text">
+            <p class="label">Step 3 · Invoice + payment</p>
+            <h3>Billing that knows where it came from.</h3>
+            <ol class="notes">
+              <li><span class="n">6</span><div><strong>Linked to the job</strong><span class="t">Each invoice links back to its work order, customer, and vehicle.</span></div></li>
+              <li><span class="n">7</span><div><strong>Money at a glance</strong><span class="t">A side panel keeps total, paid, and balance visible while staff edit line items.</span></div></li>
+              <li><span class="n">8</span><div><strong>Partial payments</strong><span class="t">The form shows the remaining balance and caps the amount, so deposits and split payments stay accurate.</span></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p class="note-line">Functional interactive front-end prototype with sample data.</p>
+    </section>
+
+    <!-- 05 AI -->
+    <section class="block" aria-labelledby="s5">
+      <div class="sec-head">
+        <p class="label"><b>05</b> / From design to prototype</p>
+        <h2 id="s5">Moving beyond static screens.</h2>
+        <p>I used AI as part of my design workflow to explore how the product would actually behave, not just how it would look.</p>
+      </div>
+      <ol class="flow drift">
+        <li>Discovery</li><li>Requirements</li><li>Workflow &amp; UX logic</li><li>Interface direction</li><li class="ai">ChatGPT + Claude</li><li class="ai">Lovable · AI-assisted build</li><li class="end">Interactive React prototype</li>
+      </ol>
+      <div class="two">
+        <div><p class="label">ChatGPT + Claude</p><p>Organizing requirements, reasoning through product logic, refining workflows, exploring interface options, and troubleshooting implementation questions.</p></div>
+        <div><p class="label">Lovable + AI-assisted development</p><p>Turning the designed workflows into a working front end (React, TypeScript, Vite, Tailwind) where real interactions could be tested: converting estimates, recording partial payments, reordering line items.</p></div>
+      </div>
+    </section>
+
+    <!-- 06 Constraint -->
+    <section class="small" aria-labelledby="s6">
+      <div class="sec-head sm">
+        <p class="label"><b>06</b> / Business constraint</p>
+        <h2 id="s6">Designing the product also clarified the cost of building it.</h2>
+        <p>The prototype clarified both how the product could work and the development scope required to bring it to production. That scope was beyond the client's available budget, so we prioritized the customer-facing experience.</p>
+      </div>
+      <div class="diagram drift" style="margin-top:clamp(28px,4vw,40px)">
+        <svg viewBox="0 0 760 200" role="img" aria-label="Prototype, production scope evaluated, budget, prioritization; the website went live and the platform remained a prototype">
+          <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dhead"/></marker></defs>
+          <g class="dline"><path d="M150 100H176" marker-end="url(#a3)"/><path d="M326 100H352" marker-end="url(#a3)"/><path d="M502 100H514V48H540" marker-end="url(#a3)"/><path d="M502 100H514V152H540" marker-end="url(#a3)"/></g>
+          <rect class="dbox" x="0" y="72" width="150" height="56" rx="12"/><text class="dt" x="75" y="96" text-anchor="middle">Interactive</text><text class="dt" x="75" y="114" text-anchor="middle">prototype</text>
+          <rect class="dbox" x="178" y="72" width="148" height="56" rx="12"/><text class="dt" x="252" y="96" text-anchor="middle">Production scope</text><text class="ds" x="252" y="114" text-anchor="middle">backend evaluated</text>
+          <rect class="dband" x="354" y="72" width="148" height="56" rx="12"/><text class="dt" x="428" y="96" text-anchor="middle">Over budget</text><text class="ds" x="428" y="114" text-anchor="middle">prioritize</text>
+          <rect class="dbox acc" x="542" y="20" width="218" height="56" rx="12"/><text class="dt" x="651" y="44" text-anchor="middle">Customer website</text><text class="ds" x="651" y="62" text-anchor="middle">Live</text>
+          <rect class="dbox" x="542" y="124" width="218" height="56" rx="12"/><text class="dt" x="651" y="148" text-anchor="middle">Management platform</text><text class="ds" x="651" y="166" text-anchor="middle">Interactive prototype</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 07 Live -->
+    <section class="block" aria-labelledby="s7">
+      <div class="sec-head">
+        <p class="label live"><b>07</b> / Live production experience</p>
+        <h2 id="s7">Prioritizing what could deliver value now.</h2>
+        <p>I designed the customer website. A developer built it in WordPress and Elementor, and I reviewed the build and gave revisions before launch. Calendly handles online appointment requests.</p>
+      </div>
+      <ol class="journey">
+        <li>Discover Prince Auto Repair</li><li>Understand services</li><li>Build trust</li><li class="end">Request appointment</li>
+      </ol>
+      <div class="live-grid">
+        <div class="stage drift">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i></div>
+            <div class="viewport live-scroll" tabindex="0" aria-label="Live homepage, scrollable"><img src="prince/img/home-services.jpg" alt="Live Prince Auto Repair homepage services and customer reviews sections"></div>
+          </div>
+          <p class="note-line" style="margin-top:14px">Scroll the homepage</p>
+        </div>
+        <div class="live-side">
+          <figure class="drift"><div class="crop"><img src="prince/img/booking-2026.jpg" alt="Calendly booking embedded on the Request an Appointment page"></div><figcaption><span class="k">Request an appointment without calling</span><span class="tag">Calendly booking</span></figcaption></figure>
+          <ul class="dash-notes" style="flex-direction:column; gap:10px">
+            <li>Services explained in plain language</li>
+            <li>Reviews and ratings near the decision</li>
+            <li>Request Appointment and Call on every page</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 Outcome -->
+    <section class="block" aria-labelledby="s8">
+      <div class="outcome">
+        <div style="display:grid; gap:24px; align-content:start">
+          <p class="label"><b>08</b> / Outcome</p>
+          <div class="sec-head"><h2 id="s8">What shipped, and what was proven</h2></div>
+          <div class="split">
+            <div><p class="label"><b>Live</b></p><ul class="delivered one">
+              <li>Responsive customer website</li><li>Online appointment requests</li><li>Calendly integration</li><li>Developer handoff and build review</li></ul></div>
+            <div><p class="label">Interactive prototype</p><ul class="delivered one">
+              <li>Client and vehicle management</li><li>Work orders and estimates</li><li>Invoices and partial payments</li><li>Search, history, and reports</li></ul></div>
+          </div>
+        </div>
+        <div class="reflect">
+          <p class="quote">Research can change the definition of the problem.</p>
+          <p>I was asked for a website. Learning how the shop worked showed a bigger opportunity inside it. AI-assisted prototyping let me take that idea past static screens, and a real budget decided what shipped first.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <a class="back" href="index.html#work">← Back to Work</a>
+      <a class="next" href="haven.html"><span class="label">Next project</span><strong>Haven Health Management →</strong></a>
+    </footer>
+
+    <section class="pf-contact" id="contact" aria-labelledby="contact-h">
+      <p class="label">Contact</p>
+      <h2 id="contact-h">Let's talk about your product.</h2>
+      <p class="pf-contact-sub">I'm looking for full-time Product Designer roles in the U.S. The fastest way to reach me is email.</p>
+      <div class="pf-links">
+        <div class="pf-email">
+          <a href="mailto:torosyanarmanush@gmail.com" class="pf-email-addr">torosyanarmanush@gmail.com</a>
+          <button type="button" class="pf-copy" data-copy="torosyanarmanush@gmail.com" id="copy-email">Copy</button>
+        </div>
+        <div class="pf-row">
+          <a href="https://linkedin.com/in/armanush-torosyan" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="Armanush_Torosyan_Product_Designer_Resume.pdf" target="_blank" rel="noopener">Resume (PDF) ↗</a>
+        </div>
+      </div>
+    </section>
+    <footer class="pf-foot">
+      <span>© 2026 Armanush Torosyan</span>
+      <span>Product Designer · South Florida, USA</span>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll('.pf-copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function done(msg) { b.textContent = msg; setTimeout(function () { b.textContent = 'Copy'; }, 1800); }
+      try {
+        navigator.clipboard.writeText(t).then(function () { done('Copied'); }, function () { sel(); });
+      } catch (e) { sel(); }
+      function sel() {
+        var a = b.parentNode.querySelector('.pf-email-addr');
+        var r = document.createRange(); r.selectNodeContents(a);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
